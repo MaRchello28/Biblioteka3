@@ -1,59 +1,98 @@
-/* Stylizacja kontenera strony użytkownika */
+/* Główne style dla całego kontenera */
 .user-site-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20px;
-    position: relative;
-    padding: 20px;
-  }
-  
-  /* Stylizacja bocznego paska (sidebar) */
-  .sidebar {
-    position: absolute; /* Umożliwia nakładanie się na główną treść */
-    top: 50px;
-    left: 20px;
-    width: 200px;
-    background-color: #f4f4f4;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    z-index: 10;
-  }
-  
-  /* Przyciski w sidebarze */
-  .sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .sidebar button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Stylizacja głównej treści strony użytkownika */
-  .main-content {
-    flex-grow: 1;
-    padding-left: 240px; /* Odsunięcie treści, aby nie zachodziła na sidebar */
-    display: flex;
-    justify-content: center; /* Wyśrodkowanie w poziomie */
-    align-items: center; /* Wyśrodkowanie w pionie */
-    text-align: center; /* Wyśrodkowanie tekstu */
-    height: 100vh; /* Zapewnia, że treść będzie wypełniała całą wysokość ekranu */
-  }
-  
-  /* Stylizacja nagłówka */
-  h2 {
-    margin-top: 0;
-    color: #4CAF50; /* Zielony kolor nagłówka */
-    font-size: 32px; /* Można dostosować wielkość czcionki */
-  }
-  
+  display: flex;               /* Flexbox, by elementy układały się obok siebie */
+  justify-content: flex-start; /* Wyrównanie do lewej */
+  align-items: flex-start;     /* Wyrównanie do góry */
+  width: 100%;
+  min-height: 100vh;           /* Minimalna wysokość na 100% */
+  box-sizing: border-box;
+}
+
+/* Stylizacja dla bocznego panelu */
+.sidebar {
+  width: 250px;                /* Ustawienie szerokości dla bocznego panelu */
+  background-color: #4caf50;   /* Kolor tła */
+  padding: 20px;
+  box-sizing: border-box;
+  height: auto;                 /* Wysokość dopasowana do zawartości */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Wyrównanie przycisków do góry */
+}
+
+.sidebar button {
+  background-color: white;     /* Biały przycisk */
+  color: #333;
+  border: none;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+  background-color: #45a049;   /* Ciemniejszy zielony kolor przy najechaniu */
+}
+
+/* Stylizacja głównego kontenera (dla app-reserve-book) */
+.main-content {
+  flex-grow: 1;                 /* Sprawia, że ten kontener zajmuje resztę przestrzeni */
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Wyrównanie do góry */
+  align-items: center;         /* Wyrównanie elementów na środku w poziomie */
+}
+
+.reserve-book-container {
+  width: 80%;                  /* Ustawienie szerokości komponentu na 80% szerokości */
+  max-width: 1000px;           /* Maksymalna szerokość komponentu */
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  /* Delikatny cień */
+  border-radius: 8px;
+  margin-top: 0;              /* Usuń dodatkowy margines, żeby zaczynało się od samej góry */
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* Wyrównanie tabeli na środku */
+}
+
+h2 {
+  color: #4caf50;
+  font-size: 2rem;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;             /* Usuń dodatkową przestrzeń przed tabelą */
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

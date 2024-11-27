@@ -5,14 +5,17 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: flex-start;  /* Ustawienie zawartości na lewą stronę */
 }
 
 /* Stylizacja kontenera */
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;  /* Ustawienie zawartości na lewej stronie */
   padding: 50px;
+  max-width: 80%; /* Zmniejszenie szerokości kontenera */
 }
 
 /* Nagłówek */
@@ -21,8 +24,9 @@ header {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;  /* Zwiększenie rozmiaru czcionki */
   color: #4CAF50; /* Zielony kolor */
+  text-align: left; /* Wyrównanie tekstu do lewej */
 }
 
 /* Sekcja wprowadzająca */

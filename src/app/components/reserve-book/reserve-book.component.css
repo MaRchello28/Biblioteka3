@@ -1,0 +1,167 @@
+/* Ogólna kolorystyka */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Kontener główny strony */
+.user-site-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  height: 100vh;  /* Pełna wysokość okna */
+  box-sizing: border-box;
+}
+
+/* Boczny pasek (sidebar) */
+.sidebar {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  width: 200px;
+  background-color: #f4f4f4;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+/* Przyciski w sidebar */
+.sidebar button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sidebar button:hover {
+  background-color: #45a049;
+}
+
+/* Główna zawartość */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Wyświetlanie zawartości od góry */
+  align-items: center; /* Wyśrodkowanie poziome */
+  padding-left: 240px; /* Aby zawartość nie zachodziła na sidebar */
+  padding-top: 50px; /* Zachowanie przestrzeni na górze */
+  width: 100%;
+  box-sizing: border-box;
+  height: 100vh; /* Zapewnienie pełnej wysokości */
+}
+
+/* Nagłówek aplikacji */
+h1 {
+  font-size: 2.5rem;
+  color: #4CAF50; /* Zielony kolor */
+  text-align: center;
+}
+
+/* Stylizacja dla tabeli */
+.reserve-book-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+
+.reserve-book-container h2 {
+  text-align: center;
+  color: #4CAF50;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Stylizacja tabeli */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0; /* Usunięcie marginesu górnego */
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
+/* Przycisk rezerwacji */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Stylizacja dla przycisków w sidebar */
+.sidebar button {
+  background-color: #4CAF50; /* Zielony przycisk */
+  color: white;
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar button:hover {
+  background-color: #45a049; /* Ciemniejszy zielony przy hoverze */
+}
+
+/* Stylizacja dla tabeli */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
+/* Ogólny styl przycisków */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+

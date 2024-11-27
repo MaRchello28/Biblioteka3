@@ -1,0 +1,57 @@
+<div class="reserve-book-container">
+  <h2>Lista książek</h2>
+  <table>
+    <thead>
+      <tr>
+        <th (click)="sortBooks('title')">
+          Tytuł
+          <span *ngIf="sortProperty === 'title'">
+            <span *ngIf="sortDirection === 'asc'">↑</span>
+            <span *ngIf="sortDirection === 'desc'">↓</span>
+          </span>
+        </th>
+        <th (click)="sortBooks('author')">
+          Autor
+          <span *ngIf="sortProperty === 'author'">
+            <span *ngIf="sortDirection === 'asc'">↑</span>
+            <span *ngIf="sortDirection === 'desc'">↓</span>
+          </span>
+        </th>
+        <th (click)="sortBooks('genre')">
+          Gatunek
+          <span *ngIf="sortProperty === 'genre'">
+            <span *ngIf="sortDirection === 'asc'">↑</span>
+            <span *ngIf="sortDirection === 'desc'">↓</span>
+          </span>
+        </th>
+        <th (click)="sortBooks('publicationYear')">
+          Rok wydania
+          <span *ngIf="sortProperty === 'publicationYear'">
+            <span *ngIf="sortDirection === 'asc'">↑</span>
+            <span *ngIf="sortDirection === 'desc'">↓</span>
+          </span>
+        </th>
+        <th (click)="sortBooks('isAvailable')">
+          Dostępność
+          <span *ngIf="sortProperty === 'isAvailable'">
+            <span *ngIf="sortDirection === 'asc'">↑</span>
+            <span *ngIf="sortDirection === 'desc'">↓</span>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of books">
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.publicationYear }}</td>
+        <td>
+          <!-- Wyświetlanie przycisku w zależności od dostępności książki -->
+          <button *ngIf="book.isAvailable" (click)="reserveBook(book)">Zarezerwuj</button>
+          <button *ngIf="!book.isAvailable" disabled>Wypożyczono</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
