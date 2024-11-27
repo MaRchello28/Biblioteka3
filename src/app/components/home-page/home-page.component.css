@@ -1,0 +1,62 @@
+/* Ogólna kolorystyka */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Stylizacja kontenera */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+  }
+  
+  /* Nagłówek */
+  header {
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #4CAF50; /* Zielony kolor */
+  }
+  
+  /* Sekcja wprowadzająca */
+  .intro {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Przycisk logowania */
+  .login-button {
+    background-color: #4CAF50; /* Zielony przycisk */
+    color: white;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #45a049; /* Ciemniejszy zielony przy hoverze */
+  }
+  

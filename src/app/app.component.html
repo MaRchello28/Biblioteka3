@@ -1,19 +1,6 @@
-<!-- <main class="main">
-  <h1 class="welcome-message">Witaj w Bibliotece</h1>
-  <div class="content">
-  </div>
-  <app-show-books></app-show-books>
-</main> -->
-
-<h1>Angular Router App</h1>
-<button>
-  <a routerLink="/home-page" routerLinkActive="active" ariaCurrentWhenActive="page">First Component</a>
-</button>
-<nav>
-  <ul>
-    <li><a routerLink="/home-page" routerLinkActive="active" ariaCurrentWhenActive="page">First Component</a></li>
-    <li><a routerLink="/show-books" routerLinkActive="active" ariaCurrentWhenActive="page">Second Component</a></li>
-  </ul>
-</nav>
-<!-- The routed views render in the <router-outlet>-->
+<div class="container">
+  <header>
+    <h1>{{ title }}</h1>
+  </header>
+</div>
 <router-outlet></router-outlet>

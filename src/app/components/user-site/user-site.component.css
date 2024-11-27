@@ -1,0 +1,59 @@
+/* Stylizacja kontenera strony użytkownika */
+.user-site-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    padding: 20px;
+  }
+  
+  /* Stylizacja bocznego paska (sidebar) */
+  .sidebar {
+    position: absolute; /* Umożliwia nakładanie się na główną treść */
+    top: 50px;
+    left: 20px;
+    width: 200px;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+  }
+  
+  /* Przyciski w sidebarze */
+  .sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .sidebar button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Stylizacja głównej treści strony użytkownika */
+  .main-content {
+    flex-grow: 1;
+    padding-left: 240px; /* Odsunięcie treści, aby nie zachodziła na sidebar */
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    text-align: center; /* Wyśrodkowanie tekstu */
+    height: 100vh; /* Zapewnia, że treść będzie wypełniała całą wysokość ekranu */
+  }
+  
+  /* Stylizacja nagłówka */
+  h2 {
+    margin-top: 0;
+    color: #4CAF50; /* Zielony kolor nagłówka */
+    font-size: 32px; /* Można dostosować wielkość czcionki */
+  }
+  

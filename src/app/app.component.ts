@@ -12,5 +12,5 @@ import { RouterLinkActive } from '@angular/router';
   imports: [ShowBooksComponent, RouterOutlet, RouterLink, RouterLinkActive]
 })
 export class AppComponent {
-  title = 'Biblioteka3';
+  title = 'Witaj w Bibliotece';
 }

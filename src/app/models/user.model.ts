@@ -6,6 +6,7 @@ export class User {
     lastName: string;
     email: string;
     role: string;
+    password: string;
     borrowedBooks: Book[];
 
     constructor(
@@ -14,6 +15,7 @@ export class User {
         lastName: string,
         email: string,
         role: string,
+        password: string,
         borrowedBooks: Book[] = []
     ) {
         this.userId = userId;
@@ -21,6 +23,7 @@ export class User {
         this.lastName = lastName;
         this.email = email;
         this.role = role;
+        this.password = password;
         this.borrowedBooks = borrowedBooks;
     }
 }
