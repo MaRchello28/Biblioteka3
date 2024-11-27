@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ShowBooksComponent } from './show-books/show-books.component';
+import { ShowBooksComponent } from './components/show-books/show-books.component';
 import { RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';

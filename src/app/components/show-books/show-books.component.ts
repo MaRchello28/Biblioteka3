@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';  // Dodaj ten import
-import { Book } from '../models/book.model'; // Jeśli plik z klasą 'Book' znajduje się w folderze 'src/app/book.ts'
-import { BookService } from '../services/book.service';
+import { Book } from '../../models/book.model'; // Jeśli plik z klasą 'Book' znajduje się w folderze 'src/app/book.ts'
+import { BookService } from '../../services/book.service';
 
 @Component({
   selector: 'app-show-books',
