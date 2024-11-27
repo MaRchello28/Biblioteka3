@@ -12,5 +12,5 @@ export const routes: Routes = [
     { path: 'show-books', component: ShowBooksComponent },
     { path: 'login', component: LoginLabelComponent},
     { path: 'user-site', component: UserSiteComponent},
-    { path: 'admin-site', Component: AdminSiteComponent},
+    { path: 'admin-site', component: AdminSiteComponent},
 ];
