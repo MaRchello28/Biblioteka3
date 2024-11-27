@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-site',
+  standalone: true,
   templateUrl: './admin-site.component.html',
-  styleUrls: ['./admin-site.component.css']
+  styleUrls: ['./admin-site.component.css'],
+  imports: [CommonModule, FormsModule]
 })
 export class AdminSiteComponent implements OnInit {
   constructor() { }
