@@ -9,4 +9,8 @@ export class LoanService {
     new Loan(2, 2, 1, new Date('2024-11-10'), new Date('2024-11-24'), true)
   ]
   constructor() { }
+
+  getUserLoans(userId: number): Loan[] {
+    return this.loans.filter(loan => loan.userId === userId);
+  }
 }

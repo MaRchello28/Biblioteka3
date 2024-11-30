@@ -1,0 +1,23 @@
+<div class="loan-history">
+  <h3>Historia wypożyczeń</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID Wypożyczenia</th>
+        <th>Id Książki</th>
+        <th>Data Wypożyczenia</th>
+        <th>Data Zwrotu</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let loan of loans">
+        <td>{{ loan.loanId }}</td>
+        <td>{{ getBookTitle(loan.bookId) }}</td>
+        <td>{{ loan.borrowDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ loan.returnDate ? (loan.returnDate | date: 'yyyy-MM-dd') : 'Brak' }}</td>
+        <td>{{ loan.isReturned ? 'Zwrócona' : 'Niezwrócona' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

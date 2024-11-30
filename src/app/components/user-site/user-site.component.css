@@ -1,27 +1,25 @@
-/* Główne style dla całego kontenera */
 .user-site-container {
-  display: flex;               /* Flexbox, by elementy układały się obok siebie */
-  justify-content: flex-start; /* Wyrównanie do lewej */
-  align-items: flex-start;     /* Wyrównanie do góry */
+  display: flex;        
+  justify-content: flex-start; 
+  align-items: flex-start;    
   width: 100%;
-  min-height: 100vh;           /* Minimalna wysokość na 100% */
+  min-height: 100vh;        
   box-sizing: border-box;
 }
 
-/* Stylizacja dla bocznego panelu */
 .sidebar {
-  width: 250px;                /* Ustawienie szerokości dla bocznego panelu */
-  background-color: #4caf50;   /* Kolor tła */
+  width: 250px;           
+  background-color: #4caf50;   
   padding: 20px;
   box-sizing: border-box;
-  height: auto;                 /* Wysokość dopasowana do zawartości */
+  height: auto;                
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Wyrównanie przycisków do góry */
+  justify-content: flex-start;
 }
 
 .sidebar button {
-  background-color: white;     /* Biały przycisk */
+  background-color: white;  
   color: #333;
   border: none;
   padding: 12px 20px;
@@ -33,31 +31,30 @@
 }
 
 .sidebar button:hover {
-  background-color: #45a049;   /* Ciemniejszy zielony kolor przy najechaniu */
+  background-color: #45a049;  
 }
 
-/* Stylizacja głównego kontenera (dla app-reserve-book) */
 .main-content {
-  flex-grow: 1;                 /* Sprawia, że ten kontener zajmuje resztę przestrzeni */
+  flex-grow: 1; 
   padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Wyrównanie do góry */
-  align-items: center;         /* Wyrównanie elementów na środku w poziomie */
+  justify-content: flex-start; 
+  align-items: center;        
 }
 
 .reserve-book-container {
-  width: 80%;                  /* Ustawienie szerokości komponentu na 80% szerokości */
-  max-width: 1000px;           /* Maksymalna szerokość komponentu */
+  width: 80%;             
+  max-width: 1000px;
   padding: 20px;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  /* Delikatny cień */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  margin-top: 0;              /* Usuń dodatkowy margines, żeby zaczynało się od samej góry */
+  margin-top: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;         /* Wyrównanie tabeli na środku */
+  align-items: center;
 }
 
 h2 {
@@ -69,7 +66,7 @@ h2 {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0;             /* Usuń dodatkową przestrzeń przed tabelą */
+  margin-top: 0;
 }
 
 table th,
