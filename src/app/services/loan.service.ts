@@ -12,4 +12,8 @@ export class LoanService {
     return this.loans
   }
   constructor() { }
+
+  getUserLoans(userId: number): Loan[] {
+    return this.loans.filter(loan => loan.userId === userId);
+  }
 }

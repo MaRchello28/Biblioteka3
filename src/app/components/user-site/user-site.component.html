@@ -1,14 +1,16 @@
 <div class="user-site-container">
-  <!-- Panel boczny -->
   <div class="sidebar">
-    <button (click)="reserveBook()">Zarezerwuj książkę</button>
-    <button (click)="viewLoans()">Zobacz wypożyczone</button>
-    <button (click)="extendBook()">Przedłuż książkę</button>
-    <button (click)="viewProfile()">Profil</button>
+    <button (click)="showLoanBook(true)">Zobacz historię wypożyczeń</button>
+    <button (click)="showReserveBook()">Zarezerwuj książkę</button>
+    <!-- <button (click)="extendBook()">Przedłuż książkę</button>
+    <button (click)="viewProfile()">Profil</button> -->
   </div>
 
-  <!-- Główny kontener dla komponentów -->
   <div class="main-content">
+    <!-- Tabela wypożyczeń -->
+    <app-loan-book *ngIf="isLoanBookVisible" [loans]="loans"></app-loan-book>
+
+    <!-- Formularz rezerwacji książki -->
     <app-reserve-book *ngIf="isReserveBookVisible"></app-reserve-book>
   </div>
 </div>
