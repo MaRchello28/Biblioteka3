@@ -38,5 +38,14 @@ export class BookService {
       this.books[index] = updatedBook;
     }
   }
+  addBook(newBook: Book): void {
+    this.books.push(newBook);
+  }
+  
+  deleteBook(bookId: number): void {
+    this.books = this.books.filter(book => book.bookId !== bookId);
+  }
+  
   constructor() { }
+
 }

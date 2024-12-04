@@ -1,0 +1,22 @@
+.book-management {
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  h3 {
+    margin-top: 1rem;
+  }
+  
+  input {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    display: block;
+    width: 100%;
+  }
+  
+  button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+  
