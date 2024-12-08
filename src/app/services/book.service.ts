@@ -44,6 +44,16 @@ export class BookService {
     }
   }
 
+  addBook(newBook: Book): void {
+    const newId = this.books.length > 0 ? Math.max(...this.books.map(b => b.bookId)) + 1 : 1;
+    newBook.bookId = newId;
+    this.books.push(newBook);
+  }
+
+  deleteBook(bookId: number): void {
+    this.books = this.books.filter(book => book.bookId !== bookId);
+  }
+
   updateBookAvailability(bookId: number, isAvailable: boolean): void {
     const book = this.books.find(b => b.bookId === bookId);
     if (book) {
@@ -70,6 +80,8 @@ export class BookService {
     const book = this.books.find(b => b.bookId === bookId);
     return book ? book.publicationYear : 0;
   }
+
+  
   constructor() { }
 
 }
