@@ -1,0 +1,70 @@
+<div class="user-profile-container">
+  <h2>Mój Profil</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Parametr</th>
+        <th>Wartość</th>
+        <th>Akcja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Imię -->
+      <tr *ngIf="editingField !== 'firstName'">
+        <td>Imię</td>
+        <td>{{ user?.firstName }}</td>
+        <td>
+          <button (click)="startEdit('firstName')">Edytuj</button>
+        </td>
+      </tr>
+      <tr *ngIf="editingField === 'firstName'">
+        <td colspan="3">
+          <app-user-edit
+            [fieldName]="'Imię'"
+            [fieldValue]="editableUser?.firstName || ''"
+            (save)="saveEdit($event)"
+            (cancel)="cancelEdit()"
+          ></app-user-edit>
+        </td>
+      </tr>
+
+      <!-- Nazwisko -->
+      <tr *ngIf="editingField !== 'lastName'">
+        <td>Nazwisko</td>
+        <td>{{ user?.lastName }}</td>
+        <td>
+          <button (click)="startEdit('lastName')">Edytuj</button>
+        </td>
+      </tr>
+      <tr *ngIf="editingField === 'lastName'">
+        <td colspan="3">
+          <app-user-edit
+            [fieldName]="'Nazwisko'"
+            [fieldValue]="editableUser?.lastName || ''"
+            (save)="saveEdit($event)"
+            (cancel)="cancelEdit()"
+          ></app-user-edit>
+        </td>
+      </tr>
+
+      <!-- Email -->
+      <tr *ngIf="editingField !== 'email'">
+        <td>Email</td>
+        <td>{{ user?.email }}</td>
+        <td>
+          <button (click)="startEdit('email')">Edytuj</button>
+        </td>
+      </tr>
+      <tr *ngIf="editingField === 'email'">
+        <td colspan="3">
+          <app-user-edit
+            [fieldName]="'Email'"
+            [fieldValue]="editableUser?.email || ''"
+            (save)="saveEdit($event)"
+            (cancel)="cancelEdit()"
+          ></app-user-edit>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,43 +1,41 @@
-<div class="reserve-book-container">
-  <h2>Lista książek</h2>
+<div class="reserved-books-container">
+  <h2>Moje rezerwacje</h2>
   <table>
     <thead>
       <tr>
-        <th (click)="sortBooks('title')">
-          Tytuł
-          <span *ngIf="sortProperty === 'title'">
-            <span *ngIf="sortDirection === 'asc'">↑</span>
-            <span *ngIf="sortDirection === 'desc'">↓</span>
-          </span>
-        </th>
-        <th (click)="sortBooks('author')">
-          Autor
-          <span *ngIf="sortProperty === 'author'">
-            <span *ngIf="sortDirection === 'asc'">↑</span>
-            <span *ngIf="sortDirection === 'desc'">↓</span>
-          </span>
-        </th>
-        <th (click)="sortBooks('genre')">
-          Gatunek
-          <span *ngIf="sortProperty === 'genre'">
-            <span *ngIf="sortDirection === 'asc'">↑</span>
-            <span *ngIf="sortDirection === 'desc'">↓</span>
-          </span>
-        </th>
-        <th (click)="sortBooks('publicationYear')">
-          Rok wydania
-          <span *ngIf="sortProperty === 'publicationYear'">
-            <span *ngIf="sortDirection === 'asc'">↑</span>
-            <span *ngIf="sortDirection === 'desc'">↓</span>
-          </span>
-        </th>
-        <th (click)="sortBooks('isAvailable')">
-          Dostępność
-          <span *ngIf="sortProperty === 'isAvailable'">
-            <span *ngIf="sortDirection === 'asc'">↑</span>
-            <span *ngIf="sortDirection === 'desc'">↓</span>
-          </span>
-        </th>
+        <th>Tytuł</th>
+        <th>Autor</th>
+        <th>Gatunek</th>
+        <th>Rok wydania</th>
+        <th>Data rezerwacji</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reservation of reservations">
+        <td>{{ getBookById(reservation.bookId)?.title }}</td>
+        <td>{{ getBookById(reservation.bookId)?.author }}</td>
+        <td>{{ getBookById(reservation.bookId)?.genre }}</td>
+        <td>{{ getBookById(reservation.bookId)?.publicationYear }}</td>
+        <td>{{ reservation.reservationDate | date }}</td>
+        <td>
+          <button (click)="cancelReservation(reservation.reservationId)">Anuluj rezerwację</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="reserve-books-container">
+  <h2>Rezerwuj książki</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tytuł</th>
+        <th>Autor</th>
+        <th>Gatunek</th>
+        <th>Rok wydania</th>
+        <th>Akcja</th>
       </tr>
     </thead>
     <tbody>
@@ -47,9 +45,9 @@
         <td>{{ book.genre }}</td>
         <td>{{ book.publicationYear }}</td>
         <td>
-          <!-- Wyświetlanie przycisku w zależności od dostępności książki -->
-          <button *ngIf="book.isAvailable" (click)="reserveBook(book)">Zarezerwuj</button>
-          <button *ngIf="!book.isAvailable" disabled>Wypożyczono</button>
+          <button [disabled]="isBookReserved(book.bookId) || !canReserveBook()" (click)="reserveBook(book.bookId)">
+            Rezerwuj
+          </button>
         </td>
       </tr>
     </tbody>

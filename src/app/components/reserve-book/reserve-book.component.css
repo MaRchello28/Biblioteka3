@@ -49,6 +49,7 @@ body {
   background-color: #45a049;
 }
 
+/* Główna zawartość */
 .main-content {
   display: flex;
   flex-direction: column;
@@ -61,12 +62,14 @@ body {
   height: 100vh;
 }
 
+/* Nagłówek główny */
 h1 {
   font-size: 2.5rem;
   color: #4CAF50;
   text-align: center;
 }
 
+/* Kontener dla rezerwacji */
 .reserve-book-container {
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -75,13 +78,15 @@ h1 {
   box-sizing: border-box;
 }
 
+/* Styl dla tytułów tabel (zielenie i centrowanie) */
 .reserve-book-container h2 {
-  text-align: center;
-  color: #4CAF50;
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  text-align: center;  /* Wyśrodkowanie */
+  color: #4CAF50;      /* Zielony kolor */
+  font-size: 1.8rem;    /* Można dostosować rozmiar czcionki */
+  margin-bottom: 20px;  /* Odstęp poniżej tytułu */
 }
 
+/* Styl dla tabeli */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -98,7 +103,7 @@ table th {
   background-color: #f4f4f4;
 }
 
-
+/* Styl dla przycisków */
 button {
   background-color: #4CAF50;
   color: white;
@@ -113,6 +118,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Styl dla przycisków w sidebar */
 .sidebar button {
   background-color: #4CAF50;
   color: white;
@@ -127,34 +133,3 @@ button:disabled {
 .sidebar button:hover {
   background-color: #45a049;
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-table th, table td {
-  border: 1px solid #ddd;
-  text-align: left;
-  padding: 8px;
-}
-
-table th {
-  background-color: #f4f4f4;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-

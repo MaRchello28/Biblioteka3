@@ -7,9 +7,14 @@ import { Book } from '../models/book.model';
 export class BookService {
 
   books: Book[] = [
-    new Book(1, 'W pustyni i w puszczy', 'Henryk Sienkiewicz', 'Przygodowa', 1911, true),
-    new Book(2, 'Pan Tadeusz', 'Adam Mickiewicz', 'Epika', 1834, false),
-    new Book(3, 'Lalka', 'Bolesław Prus', 'Realizm', 1890, true)
+    new Book(1, 'W pustyni i w puszczy', 'Henryk Sienkiewicz', 'Przygodowa', 1911, false),
+    new Book(2, 'Pan Tadeusz', 'Adam Mickiewicz', 'Epika', 1834, true),
+    new Book(3, 'Lalka', 'Bolesław Prus', 'Realizm', 1832, false),
+    new Book(4, 'Dziady cz. III', 'Adam Mickiewicz', 'Dramat', 1890, true),
+    new Book(5, 'Przedwiośnie', 'Stefan Żeromski', 'Dramat', 1925, true),
+    new Book(6, 'Zbrodnia i kara', 'Fyodor Dostojewski', 'Psychologiczna', 1866, true),
+    new Book(7, '1984', 'George Orwell', 'Dystopia', 1949, true),
+    new Book(8, 'Mistrz i Małgorzata', 'Michaił Bułhakow', 'Magiczny realizm', 1967, true)
   ];
 
   getBooks(): Book[]{
@@ -37,6 +42,33 @@ export class BookService {
     if (index !== -1) {
       this.books[index] = updatedBook;
     }
+  }
+
+  updateBookAvailability(bookId: number, isAvailable: boolean): void {
+    const book = this.books.find(b => b.bookId === bookId);
+    if (book) {
+      book.isAvailable = isAvailable;
+    }
+  }
+
+  getBookTitle(bookId: number): string {
+    const book = this.books.find(b => b.bookId === bookId);
+    return book ? book.title : 'Nie znaleziono książki';
+  }
+  
+  getBookAuthor(bookId: number): string {
+    const book = this.books.find(b => b.bookId === bookId);
+    return book ? book.author : 'Autor nieznany';
+  }
+
+  getBookGenre(bookId: number): string {
+    const book = this.books.find(b => b.bookId === bookId);
+    return book ? book.genre : 'Gatunek nieznany';
+  }
+
+  getBookPublicationYear(bookId: number): number {
+    const book = this.books.find(b => b.bookId === bookId);
+    return book ? book.publicationYear : 0;
   }
   constructor() { }
 }

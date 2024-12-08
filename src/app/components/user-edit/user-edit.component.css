@@ -1,0 +1,34 @@
+.edit-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .edit-field label {
+    font-weight: bold;
+  }
+  
+  .edit-field input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:first-child {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  

@@ -6,12 +6,15 @@ import { Book } from '../../models/book.model';
 import { LoanService } from '../../services/loan.service';
 import { LoanBookComponent } from "../loan-books/loan-books.component";
 import { BookService } from '../../services/book.service';
+import { User } from '../../models/user.model';
+import { UserProfileComponent } from '../user-profile/user-profile.component';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-user-site',
   templateUrl: './user-site.component.html',
   styleUrls: ['./user-site.component.css'],
-  imports: [ReserveBookComponent, CommonModule, LoanBookComponent],
+  imports: [ReserveBookComponent, CommonModule, LoanBookComponent, UserProfileComponent],
 })
 export class UserSiteComponent implements OnInit {
   loans: Loan[] = [];
@@ -19,14 +22,17 @@ export class UserSiteComponent implements OnInit {
   isReserveBookVisible = false;
   isLoanBookVisible = false;
   isHistoryVisible = false;
+  isProfileVisible = false;
+  currentUser: User | null = null;
 
-  constructor(private loanService: LoanService, private bookService: BookService) {}
+  constructor(private loanService: LoanService, private bookService: BookService, private loginService: LoginService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { this.currentUser = this.loginService.getUsers()[0]}
 
   reserveBook(): void {
     this.isReserveBookVisible = true;
     this.isLoanBookVisible = false;
+    this.isProfileVisible = false;
   }
 
   loadBooks(): void {
@@ -36,6 +42,7 @@ export class UserSiteComponent implements OnInit {
   showLoanBook(isHistory: boolean): void {
     this.isLoanBookVisible = true;
     this.isReserveBookVisible = false;
+    this.isProfileVisible = false;
     this.isHistoryVisible = isHistory;
 
     this.loadUserLoans();
@@ -48,5 +55,12 @@ export class UserSiteComponent implements OnInit {
   showReserveBook(): void {
     this.isLoanBookVisible = false;
     this.isReserveBookVisible = true;
+    this.isProfileVisible = false;
+  }
+
+  showProfile(): void {
+    this.isLoanBookVisible = false;
+    this.isReserveBookVisible = false;
+    this.isProfileVisible = true;
   }
 }

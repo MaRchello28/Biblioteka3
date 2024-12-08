@@ -1,16 +1,18 @@
 <div class="user-site-container">
   <div class="sidebar">
-    <button (click)="showLoanBook(true)">Zobacz historię wypożyczeń</button>
-    <button (click)="showReserveBook()">Zarezerwuj książkę</button>
+    <button (click)="showLoanBook(true)">Zobacz Historię Wypożyczeń</button>
+    <button (click)="showReserveBook()">Zarezerwuj Książkę</button>
+    <button (click)="showProfile()">Wyświetl Swój Profil</button>
     <!-- <button (click)="extendBook()">Przedłuż książkę</button>
     <button (click)="viewProfile()">Profil</button> -->
   </div>
 
   <div class="main-content">
-    <!-- Tabela wypożyczeń -->
+    
     <app-loan-book *ngIf="isLoanBookVisible" [loans]="loans"></app-loan-book>
 
-    <!-- Formularz rezerwacji książki -->
     <app-reserve-book *ngIf="isReserveBookVisible"></app-reserve-book>
+
+    <app-user-profile *ngIf="isProfileVisible" [user]="currentUser"></app-user-profile>
   </div>
 </div>
