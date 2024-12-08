@@ -71,4 +71,5 @@ export class BookService {
     return book ? book.publicationYear : 0;
   }
   constructor() { }
+
 }

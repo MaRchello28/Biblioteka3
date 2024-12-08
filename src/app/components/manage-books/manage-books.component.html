@@ -1,0 +1,41 @@
+<div class="manage-books-container">
+    <h2>Zarządzaj książkami</h2>
+  
+    <!-- Formularz do dodawania książek -->
+    <div class="book-form">
+      <form [formGroup]="newBookForm" (ngSubmit)="addBook()">
+        <input formControlName="title" placeholder="Tytuł" required />
+        <input formControlName="author" placeholder="Autor" required />
+        <input formControlName="genre" placeholder="Gatunek" required />
+        <input formControlName="publicationYear" placeholder="Rok publikacji" type="number" required />
+        <input formControlName="isAvailable" type="checkbox" /> Dostępna
+        <button type="submit" [disabled]="newBookForm.invalid">Dodaj książkę</button>
+      </form>
+    </div>
+  
+    <!-- Formularz edycji książki -->
+    <div *ngIf="editingBook">
+      <h3>Edytuj książkę</h3>
+      <form [formGroup]="editingBookForm" (ngSubmit)="saveEdit()">
+        <input formControlName="title" placeholder="Tytuł" required />
+        <input formControlName="author" placeholder="Autor" required />
+        <input formControlName="genre" placeholder="Gatunek" required />
+        <input formControlName="publicationYear" placeholder="Rok publikacji" type="number" required />
+        <input formControlName="isAvailable" type="checkbox" /> Dostępna
+        <button type="submit" [disabled]="editingBookForm.invalid">Zapisz</button>
+        <button type="button" (click)="cancelEdit()">Anuluj</button>
+      </form>
+    </div>
+  
+    <!-- Lista książek -->
+    <div class="book-list">
+      <ul>
+        <li *ngFor="let book of books">
+          {{ book.title }} - {{ book.author }} ({{ book.publicationYear }})
+          <button (click)="editBook(book)">Edytuj</button>
+          <button (click)="deleteBook(book.bookId)">Usuń</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  

@@ -29,9 +29,12 @@ export class LoginLabelComponent implements OnInit {
   onLoginSubmit(): void {
     const user = this.users.find(u => u.email === this.email && u.password === this.password);
 
-    if (user) {
+    if (user?.role == 'user') {
       this.router.navigate(['/user-site']);
-    } else {
+    }else if (user?.role=='admin'){
+      this.router.navigate(['/admin-site'])
+    }
+    else{
       this.errorMessage = 'Błędny email lub hasło.';
     }
   }

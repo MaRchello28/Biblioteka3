@@ -1,8 +1,16 @@
 <div class="admin-site-container">
-    <div class="sidebar">
-      <button (click)="SeeList()">Przeglądaj liste wypożyczeń i rezerwacji</button>
-      <button (click)="manageBook()">Zarządzaj książkami</button>
-      <button (click)="manageUser()">Zarządzaj użytkownikami</button>
-      <button (click)="raport()">Raportuj</button>
-    </div>
+  <!-- Panel boczny -->
+  <div class="sidebar">
+    <button (click)="SeeList()">Przeglądaj listę wypożyczeń i rezerwacji</button>
+    <button (click)="manageBook()">Zarządzaj książkami</button>
+    <button (click)="manageUser()">Zarządzaj użytkownikami</button>
+    <button (click)="raport()">Raportuj</button>
   </div>
+
+  <!-- Główny kontener dla dynamicznych treści -->
+  <div class="main-content">
+    <app-show-loans *ngIf="isLoanListVisible"></app-show-loans>
+    <app-manage-books *ngIf="isManageBooksVisible"></app-manage-books>
+
+  </div>
+</div>
