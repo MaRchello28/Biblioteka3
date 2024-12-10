@@ -1,50 +1,30 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
-import { Book } from '../models/book.model';
-import { BookService } from './book.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
-  private userId: number = 1;
-  reservations: Reservation[] = [
-    new Reservation(1, 3, 1, new Date('2025-11-20')),
-  ]
 
-  constructor(private bookService: BookService) { }
+  private apiUrl = 'http://localhost:3000/api/reservations';
 
-  getReservations(): Reservation[] {
-    return this.reservations.filter(res => res.userId === this.userId);
+  constructor(private http: HttpClient) { }
+
+  getReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(this.apiUrl);
   }
 
-  canReserveBook(): boolean {
-    const userReservations = this.getReservations();
-    return userReservations.length < 4;
+  addReservation(newReservation: Reservation): Observable<Reservation> {
+    return this.http.post<Reservation>(this.apiUrl, newReservation);
   }
 
-  reserveBook(bookId: number): void {
-    if (this.canReserveBook()) {
-      const reservationId = this.reservations.length + 1;
-      const reservation = new Reservation(reservationId, bookId, this.userId, new Date());
-      this.reservations.push(reservation);
-      this.bookService.updateBookAvailability(bookId, false);
-    } else {
-      alert('Nie możesz zarezerwować więcej niż 4 książek.');
-    }
+  updateReservation(updatedReservation: Reservation): Observable<Reservation> {
+    return this.http.put<Reservation>(`${this.apiUrl}/${updatedReservation.reservationId}`, updatedReservation);
   }
 
-  cancelReservation(reservationId: number): void {
-    const reservationIndex = this.reservations.findIndex(res => res.reservationId === reservationId);
-    if (reservationIndex !== -1) {
-      const reservation = this.reservations[reservationIndex];
-      this.reservations.splice(reservationIndex, 1);
-      this.bookService.updateBookAvailability(reservation.bookId, true);
-    }
-  }
-  
-  getBookTitle(bookId: number): string {
-    const book = this.bookService.books.find((b: Book) => b.bookId === bookId);
-    return book ? book.title : 'Nie znaleziono książki';
+  cancelReservation(reservationId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${reservationId}`);
   }
 }

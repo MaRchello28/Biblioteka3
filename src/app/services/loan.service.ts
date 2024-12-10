@@ -1,24 +1,30 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Loan } from '../models/loan.model';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoanService {
-  loans: Loan[] = [
-    new Loan(1, 1, 1, new Date('2024-11-10'), new Date('2024-12-24'), false),
-    new Loan(2, 2, 1, new Date('2024-11-10'), new Date('2024-11-24'), true),
-    new Loan(3, 9, 1, new Date('2024-11-02'), new Date('2024-11-30'), false)
-  ];
-  getLoans(): Loan[]{
-    return this.loans
-  }
-  constructor() { }
 
-  getUserLoans(userId: number): Loan[] {
-    return this.loans.filter(loan => loan.userId === userId);
+  private apiUrl = 'http://localhost:3000/api/loans';
+
+  constructor(private http: HttpClient) { }
+
+  getLoans(): Observable<Loan[]> {
+    return this.http.get<Loan[]>(this.apiUrl);
   }
 
-  isBookLoaned(bookId: number): boolean {
-    return this.loans.some(loan => loan.bookId === bookId && !loan.isReturned);
+  addLoan(newLoan: Loan): Observable<Loan> {
+    return this.http.post<Loan>(this.apiUrl, newLoan);
+  }
+
+  updateLoan(updatedLoan: Loan): Observable<Loan> {
+    return this.http.put<Loan>(`${this.apiUrl}/${updatedLoan.loanId}`, updatedLoan);
+  }
+
+  deleteLoan(loanId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${loanId}`);
   }
 }
