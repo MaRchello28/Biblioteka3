@@ -6,6 +6,7 @@ import { ManageBooksComponent } from '../manage-books/manage-books.component';
 import { ManageUsersComponent } from '../manage-users/manage-users.component';
 import { LoanService } from '../../services/loan.service'; 
 import { BookService } from '../../services/book.service';  
+import { Book } from '../../models/book.model'; 
 
 @Component({
   selector: 'app-admin-site',
@@ -62,23 +63,29 @@ export class AdminSiteComponent implements OnInit {
   }
 
   private loadLoanStatistics(): void {
-    const books = this.bookService.getBooks();  
-    const loanData = this.loanService.getLoanStatistics(books);  
+    // Subskrypcja na Observable<Book[]>
+    this.bookService.getBooks().subscribe((books: Book[]) => {  
+      this.books = books;  // Zapisanie książek do tablicy 'books'
 
-    const totalLoans = loanData.reduce((sum, stat) => sum + stat.totalLoans, 0);  
+      // Subskrypcja na Observable z danymi wypożyczeń
+      this.loanService.getLoanStatistics(books).subscribe((loanData: any[]) => {
+        const totalLoans = loanData.reduce((sum: number, stat: any) => sum + stat.totalLoans, 0);  
 
-    this.loanStatistics = loanData.map((stat, index) => {
-      const percentage = totalLoans ? (stat.totalLoans / totalLoans) * 100 : 0;
-      return {
-        rank: index + 1, 
-        ...stat,
-        percentage: percentage
-      };
+        this.loanStatistics = loanData.map((stat: any, index: number) => {  // Typowanie parametrów
+          const percentage = totalLoans ? (stat.totalLoans / totalLoans) * 100 : 0;
+          return {
+            rank: index + 1, 
+            ...stat,
+            percentage: percentage
+          };
+        });
+
+        this.loanStatistics.sort((a, b) => b.totalLoans - a.totalLoans);
+
+        // Ustawienie przefiltrowanych danych
+        this.filteredLoanStatistics = [...this.loanStatistics];
+      });
     });
-
-    this.loanStatistics.sort((a, b) => b.totalLoans - a.totalLoans);
-
-    this.filteredLoanStatistics = [...this.loanStatistics];
   }
 
   filterBooks(): void {

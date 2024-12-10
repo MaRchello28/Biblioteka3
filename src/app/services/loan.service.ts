@@ -43,4 +43,7 @@ export class LoanService {
   getLoanStatistics(books: any[]): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}/statistics`, { books });
   }
+  markAsReturned(loanId: number): Observable<Loan> {
+    return this.http.put<Loan>(`${this.apiUrl}/return/${loanId}`, {});
+  }
 }

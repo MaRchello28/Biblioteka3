@@ -4,9 +4,9 @@ import { Loan } from '../../models/loan.model';
 import { Book } from '../../models/book.model';
 import { User } from '../../models/user.model';
 import { LoanService } from '../../services/loan.service';
-import { BookService } from '../../services/book.service';   
-import { LoginService } from '../../services/login.service';    
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BookService } from '../../services/book.service';
+import { LoginService } from '../../services/login.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-show-loans',
@@ -17,27 +17,35 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class ShowLoansComponent implements OnInit {
   loans: Loan[] = [];
-  filteredLoans: Loan[] = []; 
+  filteredLoans: Loan[] = [];
   books: Book[] = [];
   users: User[] = [];
-  searchQuery: string = ''; 
+  searchQuery: string = '';
 
   constructor(
     private loanService: LoanService,
-    private bookService: BookService,     
-    private loginserive: LoginService     
+    private bookService: BookService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
-    this.loans = this.loanService.getLoans();
-    this.books = this.bookService.getBooks();   
-    this.users = this.loginserive.getUsers();   
-    this.filteredLoans = [...this.loans];  
+    this.loanService.getLoans().subscribe(loans => {
+      this.loans = loans;
+      this.filteredLoans = [...this.loans];
+    });
+
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books;
+    });
+
+    this.loginService.getUsers().subscribe(users => {
+      this.users = users;
+    });
   }
 
   filterLoans(): void {
     if (!this.searchQuery) {
-      this.filteredLoans = [...this.loans];  
+      this.filteredLoans = [...this.loans];
     } else {
       this.filteredLoans = this.loans.filter(loan =>
         this.getBookById(loan.bookId)?.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -48,9 +56,8 @@ export class ShowLoansComponent implements OnInit {
     }
   }
 
-
   onSearchChange(): void {
-    this.filterLoans(); 
+    this.filterLoans();
   }
 
   getBookById(bookId: number): Book | undefined {
@@ -62,9 +69,10 @@ export class ShowLoansComponent implements OnInit {
   }
 
   markAsReturned(loanId: number): void {
-    this.loanService.markAsReturned(loanId);  
-    this.filteredLoans = this.filteredLoans.map(loan => 
-      loan.loanId === loanId ? { ...loan, isReturned: true } : loan
-    );
+    this.loanService.markAsReturned(loanId).subscribe(() => {
+      this.filteredLoans = this.filteredLoans.map(loan =>
+        loan.loanId === loanId ? { ...loan, isReturned: true } : loan
+      );
+    });
   }
 }

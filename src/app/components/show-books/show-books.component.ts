@@ -10,11 +10,14 @@ import { BookService } from '../../services/book.service';
   styleUrls: ['./show-books.component.css'],
   imports: [CommonModule]
 })
-export class ShowBooksComponent implements OnInit{
+export class ShowBooksComponent implements OnInit {
   books: Book[] = [];
-  constructor(private bookservice: BookService){
-  }
+
+  constructor(private bookservice: BookService) { }
+
   ngOnInit(): void {
-    this.books = this.bookservice.getBooks();
+    this.bookservice.getBooks().subscribe((books: Book[]) => {
+      this.books = books;
+    });
   }
 }

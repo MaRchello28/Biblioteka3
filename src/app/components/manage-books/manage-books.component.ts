@@ -41,17 +41,20 @@ export class ManageBooksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.books = this.bookService.getBooks();
-    this.filteredBooks = [...this.books];  
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books;
+      this.filteredBooks = [...this.books];  
+    });
   }
 
   addBook(): void {
     if (this.newBookForm.valid) {
       const newBook: Book = this.newBookForm.value;
       newBook.bookId = this.books.length ? Math.max(...this.books.map(book => book.bookId)) + 1 : 1;
-      this.bookService.addBook(newBook);
-      this.newBookForm.reset(); 
-      this.filterBooks(); 
+      this.bookService.addBook(newBook).subscribe(() => {
+        this.newBookForm.reset(); 
+        this.ngOnInit();  
+      });
     }
   }
 
@@ -68,11 +71,12 @@ export class ManageBooksComponent implements OnInit {
 
   saveEdit(): void {
     if (this.editingBookForm.valid && this.editingBook) {
-      const updatedBook = this.editingBookForm.value;
-      this.bookService.updateBook(updatedBook);
-      this.editingBook = null; 
-      this.editingBookForm.reset();  
-      this.filterBooks(); 
+      const updatedBook = { ...this.editingBook, ...this.editingBookForm.value };
+      this.bookService.updateBook(updatedBook).subscribe(() => {
+        this.editingBook = null; 
+        this.editingBookForm.reset();  
+        this.ngOnInit();  
+      });
     }
   }
 
@@ -82,8 +86,9 @@ export class ManageBooksComponent implements OnInit {
   }
 
   deleteBook(bookId: number): void {
-    this.bookService.deleteBook(bookId);
-    this.filterBooks();  
+    this.bookService.deleteBook(bookId).subscribe(() => {
+      this.ngOnInit();  
+    });
   }
 
   filterBooks(): void {

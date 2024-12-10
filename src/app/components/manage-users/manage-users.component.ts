@@ -19,7 +19,9 @@ export class ManageUsersComponent implements OnInit {
   constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {
-    this.users = this.loginService.getUsers();
+    this.loginService.getUsers().subscribe(users => {  
+      this.users = users;  
+    });
   }
 
   selectUser(user: User): void {
