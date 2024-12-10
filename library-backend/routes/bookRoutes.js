@@ -13,21 +13,16 @@ router.get('/get', async (req, res) => {
 });
 
 router.post('/post', async (req, res) => {
-  const { title, author, genre, publicationDate, isAvailable } = req.body;
+  const { title, author, genre, publicationYear, isAvailable } = req.body;
   try {
     const book = new Book({
       title,
       author,
       genre,
-      publicationDate,
+      publicationYear,
       isAvailable,
     });
-    console.log(book._id);
-    console.log(book.title);
-    console.log(book.author);
-    console.log(book.genre);
-    console.log(book.publicationDate);
-    console.log(book.isAvailable);
+
     await book.save();
     res.status(201).json(book); 
   } catch (error) {
@@ -62,7 +57,7 @@ router.delete('/delete/:id', async (req, res) => {
       req.body,
       { new: true }
     );
-    console.log(deletedBook);
+
     if (!deletedBook) {
       return res.status(404).json({ message: 'Book not found' });
     }

@@ -25,7 +25,7 @@ export class LoanService {
     return this.http.put<Loan>(`${this.apiUrl}/put/${updatedLoan.loanId}`, updatedLoan);
   }
 
-  deleteLoan(loanId: number): Observable<void> {
+  deleteLoan(loanId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${loanId}`);
   }
 
@@ -34,7 +34,7 @@ export class LoanService {
     return this.http.get<Loan[]>(`${this.apiUrl}/sort/${property}/${direction}`);
   }
 
-  isBookLoaned(bookId: number): Observable<boolean> {
+  isBookLoaned(bookId: string): Observable<boolean> {
     return this.http.get<Loan[]>(`${this.apiUrl}/get`).pipe(
       map(loans => loans.some(loan => loan.bookId === bookId && !loan.returnDate))
     );
@@ -43,7 +43,7 @@ export class LoanService {
   getLoanStatistics(books: any[]): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}/statistics`, { books });
   }
-  markAsReturned(loanId: number): Observable<Loan> {
+  markAsReturned(loanId: string): Observable<Loan> {
     return this.http.put<Loan>(`${this.apiUrl}/return/${loanId}`, {});
   }
 }

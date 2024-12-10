@@ -50,7 +50,6 @@ export class ManageBooksComponent implements OnInit {
   addBook(): void {
     if (this.newBookForm.valid) {
       const newBook: Book = this.newBookForm.value;
-      newBook.bookId = this.books.length ? Math.max(...this.books.map(book => book.bookId)) + 1 : 1;
       this.bookService.addBook(newBook).subscribe(() => {
         this.newBookForm.reset(); 
         this.ngOnInit();  
@@ -85,7 +84,7 @@ export class ManageBooksComponent implements OnInit {
     this.editingBookForm.reset();  
   }
 
-  deleteBook(bookId: number): void {
+  deleteBook(bookId: string): void {
     this.bookService.deleteBook(bookId).subscribe(() => {
       this.ngOnInit();  
     });

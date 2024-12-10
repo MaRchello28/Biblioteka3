@@ -1,5 +1,5 @@
 export class Book {
-    bookId: number;
+    bookId: string;
     title: string;
     author: string;
     genre: string;
@@ -7,7 +7,7 @@ export class Book {
     isAvailable: boolean;
 
     constructor(
-        bookId: number,
+        bookId: string,
         title: string,
         author: string,
         genre: string,

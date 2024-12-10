@@ -24,7 +24,7 @@ export class ReservationService {
     return this.http.put<Reservation>(`${this.apiUrl}/put/${updatedReservation.reservationId}`, updatedReservation);
   }
 
-  cancelReservation(reservationId: number): Observable<void> {
+  cancelReservation(reservationId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${reservationId}`);
   }
 }

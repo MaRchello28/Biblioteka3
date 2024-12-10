@@ -28,8 +28,8 @@ export class LoanBookComponent implements OnInit {
     this.isLoanHistoryVisible = true;
   }
 
-  getBookTitle(bookId: number): string {
-    const book = this.books.find((b) => b.bookId === bookId);
+  getBookTitle(bookId: string): string {
+    const book = this.books.find((b) => b.bookId == bookId);
     return book ? book.title : 'Brak nazwy książki';
   }
   

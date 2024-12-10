@@ -61,7 +61,7 @@ export class UserProfileComponent implements OnInit {
           this.user[field] = newValue;
           break;
         case 'userId':
-          this.user[field] = Number(newValue);
+          this.user[field] = String(newValue);
           break;
         default:
           console.error(`Field ${field} is not editable.`);

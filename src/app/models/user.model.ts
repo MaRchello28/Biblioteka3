@@ -1,7 +1,7 @@
 import { Book } from './book.model';
 
 export class User {
-    userId: number;
+    userId: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -10,7 +10,7 @@ export class User {
     borrowedBooks: Book[];
 
     constructor(
-        userId: number,
+        userId: string,
         firstName: string,
         lastName: string,
         email: string,

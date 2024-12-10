@@ -12,11 +12,11 @@ router.get('/get', async (req, res) => {
 });
 
 router.post('/post', async (req, res) => {
-  const { user, book, loanDate, returnDate, isReturned } = req.body;
+  const { userId, bookId, loanDate, returnDate, isReturned } = req.body;
   try {
     const loan = new Loan({
-      user,
-      book,
+      user: userId,
+      book: bookId,
       loanDate,
       returnDate,
       isReturned,

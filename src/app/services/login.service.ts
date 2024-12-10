@@ -25,7 +25,7 @@ export class LoginService {
     return this.http.put<User>(`${this.apiUrl}/put/${updatedUser.userId}`, updatedUser);
   }
 
-  deleteUser(userId: number): Observable<void> {
+  deleteUser(userId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${userId}`);
   }
 

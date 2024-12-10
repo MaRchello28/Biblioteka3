@@ -47,7 +47,7 @@ export class ReserveBookComponent implements OnInit {
     });
   }
 
-  canReserveBook(bookId: number): boolean {
+  canReserveBook(bookId: string): boolean {
     const canReserve = this.reservationService.getReservations().subscribe(reservations => {
       return reservations.length < 4;
     });
@@ -84,9 +84,9 @@ export class ReserveBookComponent implements OnInit {
     });
   }
 
-  reserveBook(bookId: number): void {
+  reserveBook(bookId: string): void {
     if (this.canReserveBook(bookId)) {
-      const newReservation: Reservation = { bookId: bookId, userId: 1, reservationDate: new Date() } as Reservation;
+      const newReservation: Reservation = { bookId: bookId, userId: "1", reservationDate: new Date() } as Reservation;
       this.reservationService.addReservation(newReservation).subscribe(() => {
         this.loadReservations();
       });
@@ -95,17 +95,17 @@ export class ReserveBookComponent implements OnInit {
     }
   }
 
-  isBookReserved(bookId: number): boolean {
+  isBookReserved(bookId: string): boolean {
     return this.reservations.some(reservation => reservation.bookId === bookId);
   }
 
-  cancelReservation(reservationId: number): void {
+  cancelReservation(reservationId: string): void {
     this.reservationService.cancelReservation(reservationId).subscribe(() => {
       this.loadReservations();
     });
   }
 
-  getBookById(bookId: number): Book | undefined {
+  getBookById(bookId: string): Book | undefined {
     return this.books.find(book => book.bookId === bookId);
   }
 

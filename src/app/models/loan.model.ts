@@ -1,15 +1,15 @@
 export class Loan{
-    loanId: number;
-    bookId: number;
-    userId: number;
+    loanId: string;
+    bookId: string;
+    userId: string;
     loanDate: Date;
     returnDate: Date;
     isReturned: boolean;
 
     constructor(
-        loanId: number,
-        bookId: number,
-        userId: number,
+        loanId: string,
+        bookId: string,
+        userId: string,
         loanDate: Date,
         returnDate: Date,
         isReturned: boolean,

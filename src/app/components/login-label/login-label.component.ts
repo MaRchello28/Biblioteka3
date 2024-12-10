@@ -83,7 +83,7 @@ export class LoginLabelComponent {
       }
 
       this.loginService.addUser({
-        userId: 0,
+        userId: "0",
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,

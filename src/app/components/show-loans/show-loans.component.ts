@@ -60,15 +60,15 @@ export class ShowLoansComponent implements OnInit {
     this.filterLoans();
   }
 
-  getBookById(bookId: number): Book | undefined {
+  getBookById(bookId: string): Book | undefined {
     return this.books.find(book => book.bookId === bookId);
   }
 
-  getUserById(userId: number): User | undefined {
+  getUserById(userId: string): User | undefined {
     return this.users.find(user => user.userId === userId);
   }
 
-  markAsReturned(loanId: number): void {
+  markAsReturned(loanId: string): void {
     this.loanService.markAsReturned(loanId).subscribe(() => {
       this.filteredLoans = this.filteredLoans.map(loan =>
         loan.loanId === loanId ? { ...loan, isReturned: true } : loan
