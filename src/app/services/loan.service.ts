@@ -13,18 +13,18 @@ export class LoanService {
   constructor(private http: HttpClient) { }
 
   getLoans(): Observable<Loan[]> {
-    return this.http.get<Loan[]>(this.apiUrl);
+    return this.http.get<Loan[]>(`${this.apiUrl}/get`);
   }
 
   addLoan(newLoan: Loan): Observable<Loan> {
-    return this.http.post<Loan>(this.apiUrl, newLoan);
+    return this.http.post<Loan>(`${this.apiUrl}/post`, newLoan);
   }
 
   updateLoan(updatedLoan: Loan): Observable<Loan> {
-    return this.http.put<Loan>(`${this.apiUrl}/${updatedLoan.loanId}`, updatedLoan);
+    return this.http.put<Loan>(`${this.apiUrl}/put/${updatedLoan.loanId}`, updatedLoan);
   }
 
   deleteLoan(loanId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${loanId}`);
+    return this.http.delete<void>(`${this.apiUrl}/delete/${loanId}`);
   }
 }

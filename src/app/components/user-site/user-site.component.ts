@@ -27,9 +27,18 @@ export class UserSiteComponent implements OnInit {
   overdueLoans: Loan[] = [];
   isOverdueAlertVisible = false;
 
-  constructor(private loanService: LoanService, private bookService: BookService, private loginService: LoginService) {}
+  constructor(
+    private loanService: LoanService,
+    private bookService: BookService,
+    private loginService: LoginService
+  ) {}
 
-  ngOnInit(): void { this.currentUser = this.loginService.getUsers()[0]}
+  ngOnInit(): void {
+    this.loginService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.loadUserLoans();
+    });
+  }
 
   reserveBook(): void {
     this.isReserveBookVisible = true;
@@ -38,7 +47,9 @@ export class UserSiteComponent implements OnInit {
   }
 
   loadBooks(): void {
-    this.books = this.bookService.getBooks();
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books;
+    });
   }
 
   showLoanBook(isHistory: boolean): void {
@@ -46,12 +57,15 @@ export class UserSiteComponent implements OnInit {
     this.isReserveBookVisible = false;
     this.isProfileVisible = false;
     this.isHistoryVisible = isHistory;
-
     this.loadUserLoans();
   }
 
   loadUserLoans(): void {
-    this.loans = this.loanService.getUserLoans(1);
+    if (this.currentUser) {
+      this.loanService.getLoans().subscribe(loans => {
+        this.loans = loans.filter(loan => loan.userId === this.currentUser?.userId);
+      });
+    }
   }
 
   showReserveBook(): void {
@@ -68,20 +82,22 @@ export class UserSiteComponent implements OnInit {
 
   showOverdueBooks(): void {
     const today = new Date();
-
-    this.overdueLoans = this.loans.filter(
-      (loan) => !loan.isReturned && new Date(loan.returnDate) < today
-    );
+    this.overdueLoans = this.loans.filter(loan => !loan.isReturned && new Date(loan.returnDate) < today);
 
     if (this.overdueLoans.length > 0) {
       this.isOverdueAlertVisible = true;
 
-      const overdueBookTitles = this.overdueLoans.map(loan => {
-        const book = this.bookService.getBookById(loan.bookId);
-        return book ? book.title : 'Nieznany tytuł';
-      }).join(', ');
+      const overdueBookTitles: string[] = [];
+      this.overdueLoans.forEach(loan => {
+        this.bookService.getBooks().subscribe(books => {
+          const book = books.find(b => b.bookId === loan.bookId);
+          if (book) overdueBookTitles.push(book.title);
+        });
+      });
 
-      alert(`Masz niezwrócone książki po terminie: ${overdueBookTitles}`);
+      setTimeout(() => {
+        alert(`Masz niezwrócone książki po terminie: ${overdueBookTitles.join(', ')}`);
+      }, 500);
     } else {
       this.isOverdueAlertVisible = false;
       alert("Nie masz żadnych książek niezwróconych po terminie.");

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { Observable } from 'rxjs';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-login-label',
@@ -20,26 +22,31 @@ export class LoginLabelComponent {
   errorMessages: string[] = [];
   isRegistering: boolean = false;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  users$: Observable<User[]>;
+
+  constructor(private loginService: LoginService, private router: Router) {
+    this.users$ = this.loginService.getUsers();
+  }
 
   onLoginSubmit(): void {
     this.errorMessages = [];
-
+  
     if (!this.email || !this.password) {
       this.errorMessages.push('Proszę wypełnić wszystkie pola.');
       return;
     }
-
-    const user = this.loginService.getUsers().find(
-      u => u.email === this.email && u.password === this.password
-    );
-
-    if (user) {
-      this.errorMessages = [];
-      this.router.navigate(['/user-site']);
-    } else {
-      this.errorMessages.push('Nieprawidłowy email lub hasło.');
-    }
+  
+    this.loginService.getUsers().subscribe(users => {
+      const user = users.find(u => u.email === this.email && u.password === this.password);
+  
+      if (user) {
+        this.errorMessages = [];
+        this.loginService.setCurrentUser(user);
+        this.router.navigate(['/user-site']);
+      } else {
+        this.errorMessages.push('Nieprawidłowy email lub hasło.');
+      }
+    });
   }
 
   onRegisterSubmit(): void {
@@ -54,39 +61,41 @@ export class LoginLabelComponent {
       this.errorMessages.push('Hasła muszą być takie same!');
     }
 
-    if (this.loginService.getUsers().some(u => u.email === this.email)) {
-      this.errorMessages.push('Użytkownik z tym emailem już istnieje.');
-    }
+    this.loginService.getUsers().subscribe(users => {
+      if (users.some(u => u.email === this.email)) {
+        this.errorMessages.push('Użytkownik z tym emailem już istnieje.');
+      }
 
-    if (!/^[a-zA-Z]+$/.test(this.firstName)) {
-      this.errorMessages.push('Imię może zawierać tylko litery.');
-    }
+      if (!/^[a-zA-Z]+$/.test(this.firstName)) {
+        this.errorMessages.push('Imię może zawierać tylko litery.');
+      }
 
-    if (!/^[a-zA-Z]+$/.test(this.lastName)) {
-      this.errorMessages.push('Nazwisko może zawierać tylko litery.');
-    }
+      if (!/^[a-zA-Z]+$/.test(this.lastName)) {
+        this.errorMessages.push('Nazwisko może zawierać tylko litery.');
+      }
 
-    if (!/\S+@\S+\.\S+/.test(this.email)) {
-      this.errorMessages.push('To nie jest poprawny adres e-mail.');
-    }
+      if (!/\S+@\S+\.\S+/.test(this.email)) {
+        this.errorMessages.push('To nie jest poprawny adres e-mail.');
+      }
 
-    if (this.errorMessages.length > 0) {
-      return;
-    }
+      if (this.errorMessages.length > 0) {
+        return;
+      }
 
-    this.loginService.addUser({
-      userId: this.loginService.getUsers().length + 1,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      role: 'user',
-      password: this.password,
-      borrowedBooks: []
+      this.loginService.addUser({
+        userId: 0,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        role: 'user',
+        password: this.password,
+        borrowedBooks: []
+      }).subscribe(newUser => {
+        this.errorMessages = [];
+        this.isRegistering = false;
+        alert('Rejestracja udana, teraz możesz się zalogować!');
+      });
     });
-
-    this.errorMessages = [];
-    this.isRegistering = false;
-    alert('Rejestracja udana, teraz możesz się zalogować!');
   }
 
   switchToRegisterView(): void {
