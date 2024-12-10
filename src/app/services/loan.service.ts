@@ -39,4 +39,8 @@ export class LoanService {
       map(loans => loans.some(loan => loan.bookId === bookId && !loan.returnDate))
     );
   }
+
+  getLoanStatistics(books: any[]): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/statistics`, { books });
+  }
 }

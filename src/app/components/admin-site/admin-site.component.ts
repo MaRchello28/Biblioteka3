@@ -22,6 +22,7 @@ export class AdminSiteComponent implements OnInit {
   loanStatistics: any[] = []; 
   filteredLoanStatistics: any[] = [];
   searchQuery: string = ''; 
+  books: Book[] = [];
 
   constructor(
     private loanService: LoanService,
@@ -29,7 +30,7 @@ export class AdminSiteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadLoanStatistics();  
+    this.loadLoanStatistics();
   }
 
   SeeList(): void {
