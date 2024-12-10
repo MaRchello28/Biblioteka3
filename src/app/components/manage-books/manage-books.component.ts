@@ -9,11 +9,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   selector: 'app-manage-books',
   templateUrl: './manage-books.component.html',
   styleUrls: ['./manage-books.component.css'],
-  imports: [CommonModule,ReactiveFormsModule, FormsModule]
-
+  imports: [CommonModule, ReactiveFormsModule, FormsModule]
 })
 export class ManageBooksComponent implements OnInit {
   books: Book[] = [];
+  filteredBooks: Book[] = [];  // Zmienna do przechowywania przefiltrowanych książek
+  searchQuery: string = '';  // Zmienna do przechowywania zapytania wyszukiwania
   newBookForm!: FormGroup;  // Zmienna formularza do dodawania książki
   editingBookForm!: FormGroup;  // Zmienna formularza do edytowania książki
   editingBook: Book | null = null;
@@ -42,6 +43,7 @@ export class ManageBooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.books = this.bookService.getBooks();
+    this.filteredBooks = [...this.books];  // Początkowo wyświetl wszystkie książki
   }
 
   addBook(): void {
@@ -50,6 +52,7 @@ export class ManageBooksComponent implements OnInit {
       newBook.bookId = this.books.length ? Math.max(...this.books.map(book => book.bookId)) + 1 : 1;
       this.bookService.addBook(newBook);
       this.newBookForm.reset(); // Resetowanie formularza po dodaniu książki
+      this.filterBooks();  // Przefiltruj książki po dodaniu
     }
   }
 
@@ -70,6 +73,7 @@ export class ManageBooksComponent implements OnInit {
       this.bookService.updateBook(updatedBook);
       this.editingBook = null;  // Zakończenie edycji
       this.editingBookForm.reset();  // Resetowanie formularza po zapisaniu edycji
+      this.filterBooks();  // Przefiltruj książki po zapisaniu edycji
     }
   }
 
@@ -80,5 +84,24 @@ export class ManageBooksComponent implements OnInit {
 
   deleteBook(bookId: number): void {
     this.bookService.deleteBook(bookId);
+    this.filterBooks();  // Przefiltruj książki po usunięciu
+  }
+
+  // Metoda do filtrowania książek na podstawie zapytania wyszukiwania
+  filterBooks(): void {
+    if (!this.searchQuery) {
+      this.filteredBooks = [...this.books];  // Jeśli brak zapytania, wyświetl wszystkie książki
+    } else {
+      this.filteredBooks = this.books.filter(book =>
+        book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        book.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        book.genre.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
+  }
+
+  // Ustawienie zapytania wyszukiwania
+  onSearchChange(): void {
+    this.filterBooks();  // Wywołaj metodę filtrowania po zmianie zapytania
   }
 }
