@@ -28,18 +28,25 @@
 
 <div class="reserve-books-container">
   <h2>Rezerwuj książki</h2>
+  
+  <!-- Pole wyszukiwania książek -->
+  <div class="search-container">
+    <input type="text" [(ngModel)]="searchQuery" id="searchQuery" placeholder="Szukaj po tytule, autorze lub gatunku" />
+  </div>
+  
   <table>
     <thead>
       <tr>
-        <th>Tytuł</th>
-        <th>Autor</th>
-        <th>Gatunek</th>
-        <th>Rok wydania</th>
+        <th (click)="sortBooks('title')">Tytuł</th>
+        <th (click)="sortBooks('author')">Autor</th>
+        <th (click)="sortBooks('genre')">Gatunek</th>
+        <th (click)="sortBooks('publicationYear')">Rok wydania</th>
         <th>Akcja</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of books">
+      <!-- Wyświetl książki, które pasują do wyszukiwania -->
+      <tr *ngFor="let book of getFilteredBooks()">
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
         <td>{{ book.genre }}</td>

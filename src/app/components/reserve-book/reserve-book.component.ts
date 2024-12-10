@@ -4,12 +4,13 @@ import { Book } from '../../models/book.model';
 import { CommonModule } from '@angular/common';
 import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-reserve-book',
   templateUrl: './reserve-book.component.html',
   styleUrls: ['./reserve-book.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule]
 })
 export class ReserveBookComponent implements OnInit {
   books: Book[] = [];
@@ -17,11 +18,14 @@ export class ReserveBookComponent implements OnInit {
   sortProperty: keyof Book = 'title';
   sortDirection: 'asc' | 'desc' = 'asc';
   isReserveBookVisible = true;
+  filteredBooks: Book[] = [];
+  searchQuery: string = '';
 
   constructor(public bookService: BookService, public reservationService: ReservationService) {}
 
   ngOnInit(): void {
     this.books = this.bookService.books; this.reservations = this.reservationService.getReservations();
+    this.reservations = this.reservationService.getReservations();
   }
 
   canReserveBook(): boolean {
@@ -65,5 +69,24 @@ export class ReserveBookComponent implements OnInit {
 
   getBookById(bookId: number): Book | undefined {
     return this.books.find(book => book.bookId === bookId);
+  }
+
+  filterBooks(): void {
+    this.filteredBooks = this.books.filter(book => {
+      const query = this.searchQuery.toLowerCase();
+      return (
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query) ||
+        book.genre.toLowerCase().includes(query)
+      );
+    });
+  }
+
+  getFilteredBooks(): Book[] {
+    return this.books.filter(book => 
+      book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      book.genre.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 }
