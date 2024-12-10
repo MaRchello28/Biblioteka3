@@ -24,9 +24,9 @@ export class ReserveBookComponent implements OnInit {
   searchQuery: string = '';
 
   constructor(
-    private bookService: BookService, 
-    private reservationService: ReservationService, 
-    private loanService: LoanService
+    public bookService: BookService, 
+    public reservationService: ReservationService, 
+    public loanService: LoanService
   ) {}
 
   ngOnInit(): void {
