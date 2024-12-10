@@ -1,5 +1,4 @@
 <div class="admin-site-container">
-  <!-- Panel boczny -->
   <div class="sidebar">
     <button (click)="SeeList()">Przeglądaj listę wypożyczeń i rezerwacji</button>
     <button (click)="manageBook()">Zarządzaj książkami</button>
@@ -7,13 +6,12 @@
     <button (click)="raport()">Raportuj</button>
   </div>
 
-  <!-- Główny kontener dla dynamicznych treści -->
+
   <div class="main-content">
     <app-show-loans *ngIf="isLoanListVisible"></app-show-loans>
     <app-manage-books *ngIf="isManageBooksVisible"></app-manage-books>
     <app-manage-users *ngIf="isManageUsersVisible"></app-manage-users>
 
-    <!-- Sekcja raportu -->
     <div *ngIf="isReportVisible">
       <h3>Ranking Najczęściej Wypożyczanych Książek</h3>
       <div class="search-form">
@@ -31,7 +29,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let stat of filteredLoanStatistics">
-            <td>{{ stat.rank }}</td> <!-- Numer rankingu -->
+            <td>{{ stat.rank }}</td> 
             <td>{{ stat.title }}</td>
             <td>{{ stat.author }}</td>
             <td>{{ stat.totalLoans }}</td>

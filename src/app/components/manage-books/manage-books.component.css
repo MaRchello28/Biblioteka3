@@ -20,7 +20,6 @@ button {
   padding: 0.5rem 1rem;
 }
 
-/* Stylizacja dla checkboxa dostępności książki */
 .availability-checkbox {
   display: flex;
   align-items: center;
@@ -35,9 +34,9 @@ button {
 
 .availability-checkbox input {
   margin-right: 0.5rem;
-  transform: scale(1.2); /* Powiększamy checkbox */
+  transform: scale(1.2); 
 }
 
 .availability-checkbox label span {
-  font-size: 1rem; /* Rozmiar tekstu przy checkboxie */
+  font-size: 1rem; 
 }

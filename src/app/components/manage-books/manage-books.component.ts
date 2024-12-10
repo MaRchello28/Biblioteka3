@@ -13,17 +13,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class ManageBooksComponent implements OnInit {
   books: Book[] = [];
-  filteredBooks: Book[] = [];  // Zmienna do przechowywania przefiltrowanych książek
-  searchQuery: string = '';  // Zmienna do przechowywania zapytania wyszukiwania
-  newBookForm!: FormGroup;  // Zmienna formularza do dodawania książki
-  editingBookForm!: FormGroup;  // Zmienna formularza do edytowania książki
+  filteredBooks: Book[] = []; 
+  searchQuery: string = ''; 
+  newBookForm!: FormGroup; 
+  editingBookForm!: FormGroup;  
   editingBook: Book | null = null;
 
   constructor(
     private bookService: BookService,
     private fb: FormBuilder 
   ) {
-    // Przypisanie formularzy w konstruktorze
     this.newBookForm = this.fb.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
@@ -43,7 +42,7 @@ export class ManageBooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.books = this.bookService.getBooks();
-    this.filteredBooks = [...this.books];  // Początkowo wyświetl wszystkie książki
+    this.filteredBooks = [...this.books];  
   }
 
   addBook(): void {
@@ -51,13 +50,13 @@ export class ManageBooksComponent implements OnInit {
       const newBook: Book = this.newBookForm.value;
       newBook.bookId = this.books.length ? Math.max(...this.books.map(book => book.bookId)) + 1 : 1;
       this.bookService.addBook(newBook);
-      this.newBookForm.reset(); // Resetowanie formularza po dodaniu książki
-      this.filterBooks();  // Przefiltruj książki po dodaniu
+      this.newBookForm.reset(); 
+      this.filterBooks(); 
     }
   }
 
   editBook(book: Book): void {
-    this.editingBook = { ...book };  // Wypełnij formularz danymi książki do edycji
+    this.editingBook = { ...book };  
     this.editingBookForm.setValue({
       title: book.title,
       author: book.author,
@@ -71,26 +70,25 @@ export class ManageBooksComponent implements OnInit {
     if (this.editingBookForm.valid && this.editingBook) {
       const updatedBook = this.editingBookForm.value;
       this.bookService.updateBook(updatedBook);
-      this.editingBook = null;  // Zakończenie edycji
-      this.editingBookForm.reset();  // Resetowanie formularza po zapisaniu edycji
-      this.filterBooks();  // Przefiltruj książki po zapisaniu edycji
+      this.editingBook = null; 
+      this.editingBookForm.reset();  
+      this.filterBooks(); 
     }
   }
 
   cancelEdit(): void {
-    this.editingBook = null;  // Anulowanie edycji
-    this.editingBookForm.reset();  // Resetowanie formularza
+    this.editingBook = null; 
+    this.editingBookForm.reset();  
   }
 
   deleteBook(bookId: number): void {
     this.bookService.deleteBook(bookId);
-    this.filterBooks();  // Przefiltruj książki po usunięciu
+    this.filterBooks();  
   }
 
-  // Metoda do filtrowania książek na podstawie zapytania wyszukiwania
   filterBooks(): void {
     if (!this.searchQuery) {
-      this.filteredBooks = [...this.books];  // Jeśli brak zapytania, wyświetl wszystkie książki
+      this.filteredBooks = [...this.books]; 
     } else {
       this.filteredBooks = this.books.filter(book =>
         book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -100,8 +98,7 @@ export class ManageBooksComponent implements OnInit {
     }
   }
 
-  // Ustawienie zapytania wyszukiwania
   onSearchChange(): void {
-    this.filterBooks();  // Wywołaj metodę filtrowania po zmianie zapytania
+    this.filterBooks();  
   }
 }

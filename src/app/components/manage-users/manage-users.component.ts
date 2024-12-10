@@ -8,13 +8,13 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css'],
-  standalone: true, // Ensure this is set for standalone components
-  imports: [CommonModule, FormsModule] // Add FormsModule to the imports
+  standalone: true, 
+  imports: [CommonModule, FormsModule]
 })
 export class ManageUsersComponent implements OnInit {
   users: User[] = [];
   selectedUser: User | null = null;
-  newUser: User = new User(0, '', '', '', 'user', '', []);  // Adding password to new user
+  newUser: User = new User(0, '', '', '', 'user', '', []);  
 
   constructor(private loginService: LoginService) {}
 
@@ -22,12 +22,10 @@ export class ManageUsersComponent implements OnInit {
     this.users = this.loginService.getUsers();
   }
 
-  // Wybieranie użytkownika do edycji
   selectUser(user: User): void {
     this.selectedUser = { ...user };
   }
 
-  // Zapisz zmiany użytkownika
   saveUser(): void {
     if (this.selectedUser) {
       const index = this.users.findIndex(user => user.userId === this.selectedUser?.userId);
@@ -38,23 +36,20 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  // Dodanie nowego użytkownika
   addUser(): void {
     if (this.isValidUser(this.newUser)) {
-      this.newUser.userId = this.users.length + 1;  // Możesz zmienić logikę nadawania ID
+      this.newUser.userId = this.users.length + 1;  
       this.loginService.addUser(this.newUser);
-      this.newUser = new User(0, '', '', '', 'user', '', []);  // Resetowanie formularza, w tym hasła
+      this.newUser = new User(0, '', '', '', 'user', '', []);  
     } else {
       alert('Proszę uzupełnić wszystkie pola');
     }
   }
 
-  // Sprawdzenie poprawności użytkownika
   isValidUser(user: User): boolean {
     return user.firstName !== '' && user.lastName !== '' && user.email !== '' && user.password !== '';
   }
 
-  // Usunięcie użytkownika
   deleteUser(userId: number): void {
     this.users = this.users.filter(user => user.userId !== userId);
   }

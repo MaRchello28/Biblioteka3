@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ShowLoansComponent } from '../show-loans/show-loans.component';
 import { ManageBooksComponent } from '../manage-books/manage-books.component'; 
 import { ManageUsersComponent } from '../manage-users/manage-users.component';
-import { LoanService } from '../../services/loan.service';  // Import serwisu wypożyczeń
-import { BookService } from '../../services/book.service';  // Import serwisu książek
+import { LoanService } from '../../services/loan.service'; 
+import { BookService } from '../../services/book.service';  
 
 @Component({
   selector: 'app-admin-site',
@@ -19,9 +19,9 @@ export class AdminSiteComponent implements OnInit {
   isManageBooksVisible = false;
   isManageUsersVisible = false;
   isReportVisible = false;
-  loanStatistics: any[] = [];  // Tablica przechowująca dane statystyczne wypożyczeń
-  filteredLoanStatistics: any[] = []; // Filtrowane dane wypożyczeń
-  searchQuery: string = '';  // Zmienna do przechowywania zapytania wyszukiwania
+  loanStatistics: any[] = []; 
+  filteredLoanStatistics: any[] = [];
+  searchQuery: string = ''; 
 
   constructor(
     private loanService: LoanService,
@@ -29,7 +29,7 @@ export class AdminSiteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadLoanStatistics();  // Załaduj dane statystyczne wypożyczeń na starcie
+    this.loadLoanStatistics();  
   }
 
   SeeList(): void {
@@ -50,7 +50,7 @@ export class AdminSiteComponent implements OnInit {
   raport(): void {
     this.resetVisibility();
     this.isReportVisible = true;
-    this.loadLoanStatistics();  // Załaduj statystyki przy wyświetlaniu raportu
+    this.loadLoanStatistics();  
   }
 
   private resetVisibility(): void {
@@ -60,34 +60,29 @@ export class AdminSiteComponent implements OnInit {
     this.isReportVisible = false;
   }
 
-  // Funkcja do załadowania danych statystycznych wypożyczeń
   private loadLoanStatistics(): void {
-    const books = this.bookService.getBooks();  // Pobierz książki z serwisu
-    const loanData = this.loanService.getLoanStatistics(books);  // Uzyskaj dane o wypożyczeniach
+    const books = this.bookService.getBooks();  
+    const loanData = this.loanService.getLoanStatistics(books);  
 
-    // Obliczanie liczby wypożyczeń i przypisanie rankingu
-    const totalLoans = loanData.reduce((sum, stat) => sum + stat.totalLoans, 0);  // Suma wszystkich wypożyczeń
+    const totalLoans = loanData.reduce((sum, stat) => sum + stat.totalLoans, 0);  
 
     this.loanStatistics = loanData.map((stat, index) => {
       const percentage = totalLoans ? (stat.totalLoans / totalLoans) * 100 : 0;
       return {
-        rank: index + 1,  // Numer rankingu (stały, przypisany na podstawie pozycji w posortowanej liście)
+        rank: index + 1, 
         ...stat,
         percentage: percentage
       };
     });
 
-    // Sortowanie książek według liczby wypożyczeń (od największej)
     this.loanStatistics.sort((a, b) => b.totalLoans - a.totalLoans);
 
-    // Początkowo ustawiamy przefiltrowane dane na wszystkie statystyki
     this.filteredLoanStatistics = [...this.loanStatistics];
   }
 
-  // Metoda do filtrowania książek na podstawie zapytania wyszukiwania
   filterBooks(): void {
     if (!this.searchQuery) {
-      this.filteredLoanStatistics = [...this.loanStatistics];  // Jeśli brak zapytania, wyświetl wszystkie książki
+      this.filteredLoanStatistics = [...this.loanStatistics];  
     } else {
       this.filteredLoanStatistics = this.loanStatistics.filter(stat =>
         stat.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -96,8 +91,7 @@ export class AdminSiteComponent implements OnInit {
     }
   }
 
-  // Ustawienie zapytania wyszukiwania
   onSearchChange(): void {
-    this.filterBooks();  // Wywołaj metodę filtrowania po zmianie zapytania
+    this.filterBooks();  
   }
 }
