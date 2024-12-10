@@ -1,0 +1,90 @@
+/* Wyśrodkowanie kontenera w pionie i poziomie */
+:host {
+    display: flex;             /* Ustawiamy kontener w trybie flex */
+    justify-content: center;   /* Wyśrodkowanie poziome */
+    height: 100vh;             /* Wysokość na 100% widocznej wysokości ekranu */
+    margin: 0;
+  }
+  
+  /* Kontener formularza */
+  .register-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;             /* Szerokość formularza */
+    max-width: 100%;          /* Zapewni, że formularz nie będzie szerszy niż okno */
+  }
+  
+  /* Nagłówek formularza */
+  .register-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Grupa wejściowa dla każdego pola */
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Etykieta dla pól wejściowych */
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Pole wejściowe (input) */
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Stylizacja przycisku submit */
+  .input-group input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efekt po najechaniu na przycisk */
+  .input-group input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Styl przycisku przełączającego do logowania */
+  button {
+    background-color: transparent;
+    color: #4CAF50;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  /* Efekt po najechaniu na przycisk przełączający */
+  button:hover {
+    text-decoration: underline;
+  }
+  

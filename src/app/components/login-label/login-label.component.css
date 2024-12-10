@@ -1,73 +1,109 @@
-/* Wyśrodkowanie kontenera w pionie i poziomie */
 :host {
-    display: flex;             /* Ustawiamy kontener w trybie flex */
-    justify-content: center;   /* Wyśrodkowanie poziome */
-    height: 100vh;             /* Wysokość na 100% widocznej wysokości ekranu */
-    margin: 0;
-  }
-  
-  /* Kontener formularza */
-  .login-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;             /* Szerokość formularza */
-    max-width: 100%;          /* Zapewni, że formularz nie będzie szerszy niż okno */
-  }
-  
-  /* Nagłówek formularza */
-  .login-container h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  /* Grupa wejściowa dla każdego pola */
-  .input-group {
-    margin-bottom: 20px;
-  }
-  
-  /* Etykieta dla pól wejściowych */
-  .input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  /* Pole wejściowe (input) */
-  .input-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  /* Stylizacja przycisku submit */
-  .input-group input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Efekt po najechaniu na przycisk */
-  .input-group input[type="submit"]:hover {
-    background-color: #45a049;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  margin: 0;
+}
 
-  .error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-  }
-  
-  
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.input-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 4px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button[type="button"] {
+  background-color: transparent;
+  color: #4caf50;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 12px;
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button[type="button"]:hover {
+  text-decoration: underline;
+}
+
+.error-messages {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.error-messages div {
+  margin-bottom: 5px;
+}
+
+.switch-form-link {
+  background-color: transparent;
+  color: #4caf50;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  display: inline;
+  text-align: center;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
+.switch-form-link:hover {
+  text-decoration: underline;
+}

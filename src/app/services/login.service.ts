@@ -16,5 +16,9 @@ export class LoginService {
     return this.users
   }
   
+  addUser(user: User): void {
+    this.users.push(user);
+  }
+  
   constructor() { }
 }

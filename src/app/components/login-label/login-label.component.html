@@ -1,32 +1,55 @@
-<div class="login-container">
+<div class="container">
+  <ng-container *ngIf="!isRegistering">
     <h2>Login</h2>
     <form (ngSubmit)="onLoginSubmit()">
       <div class="input-group">
         <label for="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          [(ngModel)]="email" 
-          required 
-          placeholder="Wpisz swój email">
+        <input type="email" id="email" [(ngModel)]="email" name="email" required placeholder="Wpisz swój email" />
       </div>
       <div class="input-group">
         <label for="password">Hasło</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          required 
-          placeholder="Wpisz swoje hasło">
+        <input type="password" id="password" [(ngModel)]="password" name="password" required placeholder="Wpisz swoje hasło" />
+      </div>
+      <button type="submit">Zaloguj się</button>
+    </form>
+
+    <div *ngIf="errorMessages.length > 0" class="error-messages">
+      <div *ngFor="let error of errorMessages">{{ error }}</div>
+    </div>
+
+    <button (click)="switchToRegisterView()">Nie masz konta? Zarejestruj się</button>
+  </ng-container>
+
+  <ng-container *ngIf="isRegistering">
+    <h2>Rejestracja</h2>
+    <form (ngSubmit)="onRegisterSubmit()">
+      <div class="input-group">
+        <label for="firstName">Imię</label>
+        <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" required placeholder="Wpisz swoje imię" />
       </div>
       <div class="input-group">
-        <input type="submit" value="Zatwierdź">
+        <label for="lastName">Nazwisko</label>
+        <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName" required placeholder="Wpisz swoje nazwisko" />
       </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="email" name="email" required placeholder="Wpisz swój email" />
+      </div>
+      <div class="input-group">
+        <label for="password">Hasło</label>
+        <input type="password" id="password" [(ngModel)]="password" name="password" required placeholder="Wpisz swoje hasło" />
+      </div>
+      <div class="input-group">
+        <label for="confirmPassword">Powtórz hasło</label>
+        <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required placeholder="Powtórz swoje hasło" />
+      </div>
+      <button type="submit">Zarejestruj się</button>
     </form>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
+
+    <div *ngIf="errorMessages.length > 0" class="error-messages">
+      <div *ngFor="let error of errorMessages">{{ error }}</div>
     </div>
-  </div>
-  
+
+    <button (click)="switchToLoginView()">Masz już konto? Zaloguj się</button>
+  </ng-container>
+</div>

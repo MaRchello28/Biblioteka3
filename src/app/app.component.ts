@@ -9,7 +9,7 @@ import { RouterLinkActive } from '@angular/router';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [ShowBooksComponent, RouterOutlet, RouterLink, RouterLinkActive]
+  imports: [RouterOutlet]
 })
 export class AppComponent {
   title = 'Witaj w Bibliotece';
