@@ -1,0 +1,92 @@
+<div class="manage-users">
+  <h2>Lista użytkowników</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Email</th>
+        <th>Rola</th>
+        <th>Hasło</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.userId }}</td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{user.password}}</td>
+        <td>
+          <button (click)="selectUser(user)">Edytuj</button>
+          <button (click)="deleteUser(user.userId)">Usuń</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Edycja użytkownika -->
+  <div class="user-form" *ngIf="selectedUser">
+    <h3>Edycja użytkownika</h3>
+    <form>
+      <label>
+        Imię:
+        <input [(ngModel)]="selectedUser.firstName" name="firstName" />
+      </label>
+      <label>
+        Nazwisko:
+        <input [(ngModel)]="selectedUser.lastName" name="lastName" />
+      </label>
+      <label>
+        Email:
+        <input [(ngModel)]="selectedUser.email" name="email" />
+      </label>
+      <label>
+        Rola:
+        <select [(ngModel)]="selectedUser.role" name="role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </label>
+      <label>
+        Hasło:
+        <input type="password" [(ngModel)]="selectedUser.password" name="password" />
+      </label>
+      <button type="button" (click)="saveUser()">Zapisz</button>
+    </form>
+  </div>
+
+  <!-- Dodawanie nowego użytkownika -->
+  <div class="user-form">
+    <h3>Dodaj nowego użytkownika</h3>
+    <form>
+      <label>
+        Imię:
+        <input [(ngModel)]="newUser.firstName" name="newFirstName" />
+      </label>
+      <label>
+        Nazwisko:
+        <input [(ngModel)]="newUser.lastName" name="newLastName" />
+      </label>
+      <label>
+        Email:
+        <input [(ngModel)]="newUser.email" name="newEmail" />
+      </label>
+      <label>
+        Rola:
+        <select [(ngModel)]="newUser.role" name="newRole">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </label>
+      <label>
+        Hasło:
+        <input type="password" [(ngModel)]="newUser.password" name="newPassword" />
+      </label>
+      <button type="button" (click)="addUser()">Dodaj</button>
+    </form>
+  </div>
+</div>

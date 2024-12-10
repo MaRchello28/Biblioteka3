@@ -1,22 +1,43 @@
 .book-management {
-    padding: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  h3 {
-    margin-top: 1rem;
-  }
-  
-  input {
-    margin: 0.5rem 0;
-    padding: 0.5rem;
-    display: block;
-    width: 100%;
-  }
-  
-  button {
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
-  }
-  
+  padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h3 {
+  margin-top: 1rem;
+}
+
+input {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  display: block;
+  width: 100%;
+}
+
+button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Stylizacja dla checkboxa dostępności książki */
+.availability-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.availability-checkbox label {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+}
+
+.availability-checkbox input {
+  margin-right: 0.5rem;
+  transform: scale(1.2); /* Powiększamy checkbox */
+}
+
+.availability-checkbox label span {
+  font-size: 1rem; /* Rozmiar tekstu przy checkboxie */
+}

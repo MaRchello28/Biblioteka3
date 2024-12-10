@@ -1,30 +1,41 @@
 <div class="loan-table">
-    <h2>Lista wypożyczeń</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID książki</th>
-          <th>Tytuł</th>
-          <th>Autor</th>
-          <th>Imię użytkownika</th>
-          <th>Nazwisko użytkownika</th>
-          <th>Data wypożyczenia</th>
-          <th>Data zwrotu</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let loan of loans">
-          <td>{{ loan.bookId }}</td>
-          <td>{{ getBookById(loan.bookId)?.title }}</td>
-          <td>{{ getBookById(loan.bookId)?.author }}</td>
-          <td>{{ getUserById(loan.userId)?.firstName }}</td>
-          <td>{{ getUserById(loan.userId)?.lastName }}</td>
-          <td>{{ loan.borrowDate | date: 'yyyy-MM-dd' }}</td>
-          <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
-          <td>{{ loan.isReturned ? 'Zwrócono' : 'Nie zwrócono' }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Lista wypożyczeń</h2>
+
+  <!-- Formularz wyszukiwania -->
+  <div class="search-form">
+    <h3>Wyszukaj wypożyczenia</h3>
+    <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj po tytule, autorze, imieniu lub nazwisku" />
   </div>
-  
+
+  <!-- Tabela wypożyczeń -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID książki</th>
+        <th>Tytuł</th>
+        <th>Autor</th>
+        <th>Imię użytkownika</th>
+        <th>Nazwisko użytkownika</th>
+        <th>Data wypożyczenia</th>
+        <th>Data zwrotu</th>
+        <th>Status</th>
+        <th>Akcja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let loan of filteredLoans">
+        <td>{{ loan.bookId }}</td>
+        <td>{{ getBookById(loan.bookId)?.title }}</td>
+        <td>{{ getBookById(loan.bookId)?.author }}</td>
+        <td>{{ getUserById(loan.userId)?.firstName }}</td>
+        <td>{{ getUserById(loan.userId)?.lastName }}</td>
+        <td>{{ loan.borrowDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ loan.isReturned ? 'Zwrócono' : 'Nie zwrócono' }}</td>
+        <td *ngIf="!loan.isReturned">
+          <button (click)="markAsReturned(loan.loanId)">Oznacz jako zwróconą</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
