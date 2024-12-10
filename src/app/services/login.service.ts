@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
 })
 export class LoginService {
 
-  private apiUrl = 'http://localhost:3000/api/users';
+  private apiUrl = 'http://localhost:3000/users';
   private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) {}

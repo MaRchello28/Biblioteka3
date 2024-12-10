@@ -3,8 +3,7 @@
   <table>
     <thead>
       <tr>
-        <th>ID Wypożyczenia</th>
-        <th>Id Książki</th>
+        <th>Nazwa Książki</th>
         <th>Data Wypożyczenia</th>
         <th>Data Zwrotu</th>
         <th>Status</th>
@@ -12,10 +11,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let loan of loans">
-        <td>{{ loan.loanId }}</td>
         <td>{{ getBookTitle(loan.bookId) }}</td>
-        <td>{{ loan.borrowDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ loan.returnDate ? (loan.returnDate | date: 'yyyy-MM-dd') : 'Brak' }}</td>
+        <td>{{ loan.loanDate| date: 'yyyy-MM-dd' }}</td>
+        <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.isReturned ? 'Zwrócona' : 'Niezwrócona' }}</td>
       </tr>
     </tbody>

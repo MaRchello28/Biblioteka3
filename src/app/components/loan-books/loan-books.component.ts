@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Loan } from '../../models/loan.model';
-import { LoanService } from '../../services/loan.service';
-import { CommonModule } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { BookService } from '../../services/book.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-loan-book',
@@ -21,6 +20,7 @@ export class LoanBookComponent implements OnInit {
   ngOnInit(): void {
     this.bookService.getBooks().subscribe((books: Book[]) => {
       this.books = books;
+      console.log(this.loans);
     });
   }
 
@@ -31,5 +31,9 @@ export class LoanBookComponent implements OnInit {
   getBookTitle(bookId: number): string {
     const book = this.books.find((b) => b.bookId === bookId);
     return book ? book.title : 'Brak nazwy książki';
+  }
+  
+  parseDate(dateString: string): Date {
+    return new Date(dateString);
   }
 }

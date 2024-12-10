@@ -29,7 +29,7 @@
         <td>{{ getBookById(loan.bookId)?.author }}</td>
         <td>{{ getUserById(loan.userId)?.firstName }}</td>
         <td>{{ getUserById(loan.userId)?.lastName }}</td>
-        <td>{{ loan.borrowDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.isReturned ? 'Zwrócono' : 'Nie zwrócono' }}</td>
         <td *ngIf="!loan.isReturned">

@@ -2,7 +2,7 @@ export class Loan{
     loanId: number;
     bookId: number;
     userId: number;
-    borrowDate: Date;
+    loanDate: Date;
     returnDate: Date;
     isReturned: boolean;
 
@@ -10,14 +10,14 @@ export class Loan{
         loanId: number,
         bookId: number,
         userId: number,
-        borrowDate: Date,
+        loanDate: Date,
         returnDate: Date,
         isReturned: boolean,
     ){
         this.loanId = loanId
         this.bookId = bookId
         this.userId = userId
-        this.borrowDate = borrowDate
+        this.loanDate = loanDate
         this.returnDate = returnDate
         this.isReturned = isReturned
     }

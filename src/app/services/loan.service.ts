@@ -9,7 +9,7 @@ import { map } from 'rxjs';
 })
 export class LoanService {
 
-  private apiUrl = 'http://localhost:3000/api/loans';
+  private apiUrl = 'http://localhost:3000/loans';
 
   constructor(private http: HttpClient) { }
 
