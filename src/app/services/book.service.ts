@@ -27,4 +27,9 @@ export class BookService {
   deleteBook(bookId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${bookId}`);
   }
+
+  sortBooks(property: keyof Book, ascending: boolean): Observable<Book[]> {
+    const direction = ascending ? 'asc' : 'desc';
+    return this.http.get<Book[]>(`${this.apiUrl}/sort/${property}/${direction}`);
+  }
 }

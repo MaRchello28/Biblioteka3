@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Loan } from '../models/loan.model';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,16 @@ export class LoanService {
 
   deleteLoan(loanId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${loanId}`);
+  }
+
+  sortLoans(property: keyof Loan, ascending: boolean): Observable<Loan[]> {
+    const direction = ascending ? 'asc' : 'desc';
+    return this.http.get<Loan[]>(`${this.apiUrl}/sort/${property}/${direction}`);
+  }
+
+  isBookLoaned(bookId: number): Observable<boolean> {
+    return this.http.get<Loan[]>(`${this.apiUrl}/get`).pipe(
+      map(loans => loans.some(loan => loan.bookId === bookId && !loan.returnDate))
+    );
   }
 }

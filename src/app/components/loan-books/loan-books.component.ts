@@ -13,13 +13,15 @@ import { BookService } from '../../services/book.service';
 })
 export class LoanBookComponent implements OnInit {
   @Input() loans: Loan[] = [];
-  @Input() books: Book[] = [];
+  books: Book[] = [];
   isLoanHistoryVisible: boolean = false;
 
   constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
-    this.books = this.bookService.getBooks();
+    this.bookService.getBooks().subscribe((books: Book[]) => {
+      this.books = books;
+    });
   }
 
   showLoanHistory(): void {

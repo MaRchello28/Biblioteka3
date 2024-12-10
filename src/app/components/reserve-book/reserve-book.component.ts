@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
 import { ReservationService } from '../../services/reservation.service';
-import { LoanService } from '../../services/loan.service';  // Zaimportuj serwis LoanService
+import { LoanService } from '../../services/loan.service';
 import { Reservation } from '../../models/reservation.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Loan } from '../../models/loan.model';
 
 @Component({
   selector: 'app-reserve-book',
@@ -23,34 +24,45 @@ export class ReserveBookComponent implements OnInit {
   searchQuery: string = '';
 
   constructor(
-    public bookService: BookService, 
-    public reservationService: ReservationService, 
-    public loanService: LoanService  // Inicjalizuj serwis LoanService
+    private bookService: BookService, 
+    private reservationService: ReservationService, 
+    private loanService: LoanService
   ) {}
 
   ngOnInit(): void {
-    this.books = this.bookService.books;
-    this.reservations = this.reservationService.getReservations();
+    this.loadBooks();
+    this.loadReservations();
+  }
+
+  loadBooks(): void {
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books;
+      this.filteredBooks = books;
+    });
+  }
+
+  loadReservations(): void {
+    this.reservationService.getReservations().subscribe(reservations => {
+      this.reservations = reservations;
+    });
   }
 
   canReserveBook(bookId: number): boolean {
-    // Sprawdź, czy użytkownik ma mniej niż 4 rezerwacje
-    const canReserve = this.reservationService.canReserveBook();
-    if (!canReserve) return false;  // Użytkownik nie może mieć więcej niż 4 rezerwacje
-  
-    // Sprawdź, czy książka jest wypożyczona
+    const canReserve = this.reservationService.getReservations().subscribe(reservations => {
+      return reservations.length < 4;
+    });
+    if (!canReserve) return false;
+
     const isBookLoaned = this.loanService.isBookLoaned(bookId);
     if (isBookLoaned) {
-      return false; // Jeśli książka jest wypożyczona, nie można jej zarezerwować
+      return false;
     }
-  
-    // Sprawdź, czy książka jest już zarezerwowana
+
     const isBookReserved = this.isBookReserved(bookId);
     if (isBookReserved) {
-      return false; // Jeśli książka jest zarezerwowana, nie można jej ponownie zarezerwować
+      return false;
     }
-  
-    // Jeśli wszystkie warunki są spełnione, książka może być zarezerwowana
+
     return true;
   }
 
@@ -62,14 +74,22 @@ export class ReserveBookComponent implements OnInit {
       this.sortDirection = 'asc';
     }
     const isNumber = typeof this.books[0][property] === 'number';
-    this.bookService.sortBooks(this.sortProperty, this.sortDirection === 'asc', isNumber);
-    this.books = [...this.bookService.books];
+    this.bookService.sortBooks(this.sortProperty, this.sortDirection === 'asc').subscribe(books => {
+      this.books = books;
+    });
+  }
+
+  sortLoans(property: keyof Loan): void {
+    this.loanService.sortLoans(property, this.sortDirection === 'asc').subscribe(loans => {
+    });
   }
 
   reserveBook(bookId: number): void {
     if (this.canReserveBook(bookId)) {
-      this.reservationService.reserveBook(bookId);
-      this.reservations = this.reservationService.getReservations();
+      const newReservation: Reservation = { bookId: bookId, userId: 1, reservationDate: new Date() } as Reservation;
+      this.reservationService.addReservation(newReservation).subscribe(() => {
+        this.loadReservations();
+      });
     } else {
       alert('Nie możesz zarezerwować tej książki.');
     }
@@ -80,8 +100,9 @@ export class ReserveBookComponent implements OnInit {
   }
 
   cancelReservation(reservationId: number): void {
-    this.reservationService.cancelReservation(reservationId);
-    this.reservations = this.reservationService.getReservations();
+    this.reservationService.cancelReservation(reservationId).subscribe(() => {
+      this.loadReservations();
+    });
   }
 
   getBookById(bookId: number): Book | undefined {

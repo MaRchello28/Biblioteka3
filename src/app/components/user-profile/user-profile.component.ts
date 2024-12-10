@@ -18,7 +18,7 @@ export class UserProfileComponent implements OnInit {
   editingField: keyof User | null = null;
   editableUser: User | null = null;
 
-  errorMessage: string | null = null;  // Komunikat błędu na poziomie całego komponentu
+  errorMessage: string | null = null;
 
   constructor(private dialog: MatDialog) {}
 
@@ -46,14 +46,12 @@ export class UserProfileComponent implements OnInit {
   saveEdit(newValue: string): void {
     if (this.user && this.editingField) {
       const field = this.editingField;
-  
-      // Walidacja dla Imienia
+
       if (field === 'firstName' && !/^[A-Za-z]+$/.test(newValue)) {
         this.setErrorMessage('Imię może zawierać tylko litery.');
-        return; // Zatrzymanie dalszego zapisu w przypadku błędu
+        return;
       }
-  
-      // Inne przypadki zapisu
+
       switch (field) {
         case 'firstName':
         case 'lastName':
@@ -68,8 +66,7 @@ export class UserProfileComponent implements OnInit {
         default:
           console.error(`Field ${field} is not editable.`);
       }
-  
-      // Zakończenie edycji
+
       this.editingField = null;
     }
   }
@@ -79,12 +76,10 @@ export class UserProfileComponent implements OnInit {
     this.editableUser = null;
   }
 
-  // Funkcja do ustawienia komunikatu o błędzie
   setErrorMessage(message: string): void {
     this.errorMessage = message;
   }
 
-  // Funkcja do usunięcia komunikatu o błędzie
   clearErrorMessage(): void {
     this.errorMessage = null;
   }
