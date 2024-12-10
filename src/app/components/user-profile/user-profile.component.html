@@ -1,5 +1,10 @@
 <div class="user-profile-container">
   <h2>Mój Profil</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <strong>{{ errorMessage }}</strong>
+  </div>
+
   <table>
     <thead>
       <tr>
@@ -9,7 +14,6 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Imię -->
       <tr *ngIf="editingField !== 'firstName'">
         <td>Imię</td>
         <td>{{ user?.firstName }}</td>
@@ -28,7 +32,6 @@
         </td>
       </tr>
 
-      <!-- Nazwisko -->
       <tr *ngIf="editingField !== 'lastName'">
         <td>Nazwisko</td>
         <td>{{ user?.lastName }}</td>
@@ -47,7 +50,6 @@
         </td>
       </tr>
 
-      <!-- Email -->
       <tr *ngIf="editingField !== 'email'">
         <td>Email</td>
         <td>{{ user?.email }}</td>
@@ -60,6 +62,26 @@
           <app-user-edit
             [fieldName]="'Email'"
             [fieldValue]="editableUser?.email || ''"
+            (save)="saveEdit($event)"
+            (cancel)="cancelEdit()"
+          ></app-user-edit>
+        </td>
+      </tr>
+
+      <tr *ngIf="editingField !== 'password'">
+        <td>Hasło</td>
+        <td>{{ isPasswordVisible ? user?.password : '********' }}</td>
+        <td>
+          <button (click)="startEdit('password')">Edytuj</button>
+          <button *ngIf="!isPasswordVisible" (click)="togglePasswordVisibility()" class="reveal-password-button">Wyświetl hasło</button>
+          <button *ngIf="isPasswordVisible" (click)="togglePasswordVisibility()" class="hide-password-button">Ukryj hasło</button>
+        </td>
+      </tr>
+      <tr *ngIf="editingField === 'password'">
+        <td colspan="3">
+          <app-user-edit
+            [fieldName]="'Hasło'"
+            [fieldValue]="editableUser?.password || ''"
             (save)="saveEdit($event)"
             (cancel)="cancelEdit()"
           ></app-user-edit>
