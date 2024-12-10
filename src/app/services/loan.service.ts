@@ -6,7 +6,8 @@ import { Loan } from '../models/loan.model';
 export class LoanService {
   loans: Loan[] = [
     new Loan(1, 1, 1, new Date('2024-11-10'), new Date('2024-12-24'), false),
-    new Loan(2, 2, 1, new Date('2024-11-10'), new Date('2024-11-24'), true)
+    new Loan(2, 2, 1, new Date('2024-11-10'), new Date('2024-11-24'), true),
+    new Loan(3, 9, 1, new Date('2024-11-02'), new Date('2024-11-30'), false)
   ];
   getLoans(): Loan[]{
     return this.loans
@@ -15,5 +16,9 @@ export class LoanService {
 
   getUserLoans(userId: number): Loan[] {
     return this.loans.filter(loan => loan.userId === userId);
+  }
+
+  isBookLoaned(bookId: number): boolean {
+    return this.loans.some(loan => loan.bookId === bookId && !loan.isReturned);
   }
 }

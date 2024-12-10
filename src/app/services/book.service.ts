@@ -14,7 +14,8 @@ export class BookService {
     new Book(5, 'Przedwiośnie', 'Stefan Żeromski', 'Dramat', 1925, true),
     new Book(6, 'Zbrodnia i kara', 'Fyodor Dostojewski', 'Psychologiczna', 1866, true),
     new Book(7, '1984', 'George Orwell', 'Dystopia', 1949, true),
-    new Book(8, 'Mistrz i Małgorzata', 'Michaił Bułhakow', 'Magiczny realizm', 1967, true)
+    new Book(8, 'Mistrz i Małgorzata', 'Michaił Bułhakow', 'Magiczny realizm', 1967, true),
+    new Book(9, "Niemcy", "Piotr Zychowicz", "Historyczna", 2017, false)
   ];
 
   getBooks(): Book[]{
@@ -79,6 +80,10 @@ export class BookService {
   getBookPublicationYear(bookId: number): number {
     const book = this.books.find(b => b.bookId === bookId);
     return book ? book.publicationYear : 0;
+  }
+
+  getBookById(bookId: number): Book | undefined {
+    return this.books.find(book => book.bookId === bookId);
   }
 
   

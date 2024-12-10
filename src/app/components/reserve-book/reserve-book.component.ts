@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
-import { CommonModule } from '@angular/common';
-import { Reservation } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation.service';
+import { LoanService } from '../../services/loan.service';  // Zaimportuj serwis LoanService
+import { Reservation } from '../../models/reservation.model';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -21,15 +22,36 @@ export class ReserveBookComponent implements OnInit {
   filteredBooks: Book[] = [];
   searchQuery: string = '';
 
-  constructor(public bookService: BookService, public reservationService: ReservationService) {}
+  constructor(
+    public bookService: BookService, 
+    public reservationService: ReservationService, 
+    public loanService: LoanService  // Inicjalizuj serwis LoanService
+  ) {}
 
   ngOnInit(): void {
-    this.books = this.bookService.books; this.reservations = this.reservationService.getReservations();
+    this.books = this.bookService.books;
     this.reservations = this.reservationService.getReservations();
   }
 
-  canReserveBook(): boolean {
-    return this.reservationService.canReserveBook();
+  canReserveBook(bookId: number): boolean {
+    // Sprawdź, czy użytkownik ma mniej niż 4 rezerwacje
+    const canReserve = this.reservationService.canReserveBook();
+    if (!canReserve) return false;  // Użytkownik nie może mieć więcej niż 4 rezerwacje
+  
+    // Sprawdź, czy książka jest wypożyczona
+    const isBookLoaned = this.loanService.isBookLoaned(bookId);
+    if (isBookLoaned) {
+      return false; // Jeśli książka jest wypożyczona, nie można jej zarezerwować
+    }
+  
+    // Sprawdź, czy książka jest już zarezerwowana
+    const isBookReserved = this.isBookReserved(bookId);
+    if (isBookReserved) {
+      return false; // Jeśli książka jest zarezerwowana, nie można jej ponownie zarezerwować
+    }
+  
+    // Jeśli wszystkie warunki są spełnione, książka może być zarezerwowana
+    return true;
   }
 
   sortBooks(property: keyof Book): void {
@@ -44,17 +66,12 @@ export class ReserveBookComponent implements OnInit {
     this.books = [...this.bookService.books];
   }
 
-  private isAscending(property: keyof Book): boolean {
-    return this.sortDirection === 'asc';
-
-  }
-
   reserveBook(bookId: number): void {
-    if (this.canReserveBook()) {
+    if (this.canReserveBook(bookId)) {
       this.reservationService.reserveBook(bookId);
       this.reservations = this.reservationService.getReservations();
     } else {
-      alert('Nie możesz zarezerwować więcej niż 4 książek.');
+      alert('Nie możesz zarezerwować tej książki.');
     }
   }
 
@@ -69,17 +86,6 @@ export class ReserveBookComponent implements OnInit {
 
   getBookById(bookId: number): Book | undefined {
     return this.books.find(book => book.bookId === bookId);
-  }
-
-  filterBooks(): void {
-    this.filteredBooks = this.books.filter(book => {
-      const query = this.searchQuery.toLowerCase();
-      return (
-        book.title.toLowerCase().includes(query) ||
-        book.author.toLowerCase().includes(query) ||
-        book.genre.toLowerCase().includes(query)
-      );
-    });
   }
 
   getFilteredBooks(): Book[] {

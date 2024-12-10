@@ -24,6 +24,8 @@ export class UserSiteComponent implements OnInit {
   isHistoryVisible = false;
   isProfileVisible = false;
   currentUser: User | null = null;
+  overdueLoans: Loan[] = [];
+  isOverdueAlertVisible = false;
 
   constructor(private loanService: LoanService, private bookService: BookService, private loginService: LoginService) {}
 
@@ -62,5 +64,27 @@ export class UserSiteComponent implements OnInit {
     this.isLoanBookVisible = false;
     this.isReserveBookVisible = false;
     this.isProfileVisible = true;
+  }
+
+  showOverdueBooks(): void {
+    const today = new Date();
+
+    this.overdueLoans = this.loans.filter(
+      (loan) => !loan.isReturned && new Date(loan.returnDate) < today
+    );
+
+    if (this.overdueLoans.length > 0) {
+      this.isOverdueAlertVisible = true;
+
+      const overdueBookTitles = this.overdueLoans.map(loan => {
+        const book = this.bookService.getBookById(loan.bookId);
+        return book ? book.title : 'Nieznany tytuł';
+      }).join(', ');
+
+      alert(`Masz niezwrócone książki po terminie: ${overdueBookTitles}`);
+    } else {
+      this.isOverdueAlertVisible = false;
+      alert("Nie masz żadnych książek niezwróconych po terminie.");
+    }
   }
 }

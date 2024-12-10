@@ -28,10 +28,9 @@
 
 <div class="reserve-books-container">
   <h2>Rezerwuj książki</h2>
-  
-  <!-- Pole wyszukiwania książek -->
+
   <div class="search-container">
-    <input type="text" [(ngModel)]="searchQuery" id="searchQuery" placeholder="Szukaj po tytule, autorze lub gatunku" />
+    <input type="text" [(ngModel)]="searchQuery" id="searchQuery" placeholder="Wyszukaj" />
   </div>
   
   <table>
@@ -45,15 +44,16 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Wyświetl książki, które pasują do wyszukiwania -->
       <tr *ngFor="let book of getFilteredBooks()">
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
         <td>{{ book.genre }}</td>
         <td>{{ book.publicationYear }}</td>
         <td>
-          <button [disabled]="isBookReserved(book.bookId) || !canReserveBook()" (click)="reserveBook(book.bookId)">
-            Rezerwuj
+          <button 
+            [disabled]="isBookReserved(book.bookId) || loanService.isBookLoaned(book.bookId) || !canReserveBook(book.bookId)" 
+            (click)="reserveBook(book.bookId)">
+            Zarezerwuj
           </button>
         </td>
       </tr>

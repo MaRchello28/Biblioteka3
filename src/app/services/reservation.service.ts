@@ -9,7 +9,7 @@ import { BookService } from './book.service';
 export class ReservationService {
   private userId: number = 1;
   reservations: Reservation[] = [
-    new Reservation(1, 3, 1, new Date('2025-11-20'))
+    new Reservation(1, 3, 1, new Date('2025-11-20')),
   ]
 
   constructor(private bookService: BookService) { }

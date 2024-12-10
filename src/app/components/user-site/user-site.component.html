@@ -3,8 +3,7 @@
     <button (click)="showLoanBook(true)">Zobacz Historię Wypożyczeń</button>
     <button (click)="showReserveBook()">Zarezerwuj Książkę</button>
     <button (click)="showProfile()">Wyświetl Swój Profil</button>
-    <!-- <button (click)="extendBook()">Przedłuż książkę</button>
-    <button (click)="viewProfile()">Profil</button> -->
+    <button (click)="showOverdueBooks()">Wyświetl niezwrócone książki po terminie</button>
   </div>
 
   <div class="main-content">
@@ -14,5 +13,6 @@
     <app-reserve-book *ngIf="isReserveBookVisible"></app-reserve-book>
 
     <app-user-profile *ngIf="isProfileVisible" [user]="currentUser"></app-user-profile>
+    
   </div>
 </div>
