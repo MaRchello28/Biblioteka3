@@ -1,10 +1,11 @@
 const express = require('express');
-const Loan = require('../models/Loan');
 const router = express.Router();
+const Loan = require('../models/Loan');
+const User = require('../models/User');
 
 router.get('/get', async (req, res) => {
   try {
-    const loans = await Loan.find().populate('user book');
+    const loans = await Loan.find();
     res.status(200).json(loans);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,54 +13,52 @@ router.get('/get', async (req, res) => {
 });
 
 router.post('/post', async (req, res) => {
-  const { userId, bookId, loanDate, returnDate, isReturned } = req.body;
+  const { userId, bookId, reservationDate } = req.body;
+  console.log("Received reservation data:", req.body);
   try {
-    const loan = new Loan({
-      user: userId,
-      book: bookId,
-      loanDate,
-      returnDate,
-      isReturned,
+    const user = await User.findById(userId);
+    const book = await Book.findById(bookId);
+
+    if (!user || !book) {
+      return res.status(404).json({ message: 'User or Book not found' });
+    }
+
+    const reservation = new Reservation({
+      userId: userId,
+      bookId: bookId,
+      reservationDate: new Date(reservationDate),
+      status: 'reserved',
     });
 
-    await loan.save();
-    res.status(201).json(loan);
+    await reservation.save();
+    res.status(201).json(reservation);
   } catch (error) {
+    console.log("Error saving reservation:", error);
     res.status(500).json({ message: error.message });
   }
 });
 
-router.put('/put/:id', async (req, res) => {
-  const loanId = req.params.id;
-  const { user, book, loanDate, returnDate, isReturned } = req.body;
-
+router.put('/users/:_id', async (req, res) => {
+  const { _id } = req.params;
+  const { loanId } = req.body;
   try {
-    const updatedLoan = await Loan.findByIdAndUpdate(
-      loanId,
-      { user, book, loanDate, returnDate, isReturned },
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { $push: { loans: loanId } },
       { new: true }
-    ).populate('user book');
-
-    if (!updatedLoan) {
-      return res.status(404).json({ message: 'Loan not found' });
-    }
-
-    res.status(200).json(updatedLoan);
+    ).populate('loans');
+    res.status(200).json(updatedUser || { message: 'User not found' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
 router.delete('/delete/:id', async (req, res) => {
-  const loanId = req.params.id;
-
   try {
-    const deletedLoan = await Loan.findByIdAndDelete(loanId);
-
+    const deletedLoan = await Loan.findByIdAndDelete(req.params.id);
     if (!deletedLoan) {
       return res.status(404).json({ message: 'Loan not found' });
     }
-
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: error.message });

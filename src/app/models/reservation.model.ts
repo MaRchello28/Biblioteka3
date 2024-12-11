@@ -1,16 +1,16 @@
 export class Reservation {
-    reservationId: string;
+    _id: string;
     bookId: string;
     userId: string;
     reservationDate: Date;
 
     constructor(
-        reservationId: string,
+        _id: string,
         bookId: string,
         userId: string,
         reservationDate: Date,
     ) {
-        this.reservationId = reservationId
+        this._id = _id
         this.bookId = bookId
         this.userId = userId
         this.reservationDate = reservationDate

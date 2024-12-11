@@ -48,10 +48,10 @@ export class ShowLoansComponent implements OnInit {
       this.filteredLoans = [...this.loans];
     } else {
       this.filteredLoans = this.loans.filter(loan =>
-        this.getBookById(loan.bookId)?.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        this.getBookById(loan.bookId)?.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        this.getUserById(loan.userId)?.firstName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        this.getUserById(loan.userId)?.lastName.toLowerCase().includes(this.searchQuery.toLowerCase())
+        this.getBookById(loan._id)?.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        this.getBookById(loan._id)?.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        this.getUserById(loan._id)?.firstName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        this.getUserById(loan._id)?.lastName.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   }
@@ -60,18 +60,18 @@ export class ShowLoansComponent implements OnInit {
     this.filterLoans();
   }
 
-  getBookById(bookId: string): Book | undefined {
-    return this.books.find(book => book.bookId === bookId);
+  getBookById(_id: string): Book | undefined {
+    return this.books.find(book => book._id === _id);
   }
 
-  getUserById(userId: string): User | undefined {
-    return this.users.find(user => user.userId === userId);
+  getUserById(_id: string): User | undefined {
+    return this.users.find(user => user._id === _id);
   }
 
-  markAsReturned(loanId: string): void {
-    this.loanService.markAsReturned(loanId).subscribe(() => {
+  markAsReturned(_id: string): void {
+    this.loanService.markAsReturned(_id).subscribe(() => {
       this.filteredLoans = this.filteredLoans.map(loan =>
-        loan.loanId === loanId ? { ...loan, isReturned: true } : loan
+        loan._id === _id ? { ...loan, isReturned: true } : loan
       );
     });
   }

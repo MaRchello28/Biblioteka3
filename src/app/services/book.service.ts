@@ -21,11 +21,11 @@ export class BookService {
   }
 
   updateBook(updatedBook: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.apiUrl}/put/${updatedBook.bookId}`, updatedBook);
+    return this.http.put<Book>(`${this.apiUrl}/put/${updatedBook._id}`, updatedBook);
   }
 
-  deleteBook(bookId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${bookId}`);
+  deleteBook(_id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${_id}`);
   }
 
   sortBooks(property: keyof Book, ascending: boolean): Observable<Book[]> {

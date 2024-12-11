@@ -33,7 +33,7 @@ export class UserEditComponent {
   }
 
   isValid(): boolean {
-    this.errorMessage = '';
+    this.errorMessage = 'Zmienion dane użytkownika';
 
     if (this.fieldName === 'Email' && !this.isValidEmail(this.editableValue)) {
       this.errorMessage = 'Proszę podać poprawny adres e-mail.';

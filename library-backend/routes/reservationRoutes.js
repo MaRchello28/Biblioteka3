@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
 const Book = require('../models/Book');
@@ -6,7 +7,7 @@ const router = express.Router();
 
 router.get('/get', async (req, res) => {
   try {
-    const reservations = await Reservation.find().populate('user').populate('book');
+    const reservations = await Reservation.find();
     res.status(200).json(reservations);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,21 +15,23 @@ router.get('/get', async (req, res) => {
 });
 
 router.post('/post', async (req, res) => {
+  console.log('Received data:', req.body);
   const { userId, bookId, reservationDate } = req.body;
   try {
     const user = await User.findById(userId);
+    console.log(user);
     const book = await Book.findById(bookId);
-
+    console.log(book);
     if (!user || !book) {
       return res.status(404).json({ message: 'User or Book not found' });
     }
 
     const reservation = new Reservation({
-      user: userId,
-      book: bookId,
+      userId: userId,
+      bookId: bookId,
       reservationDate: new Date(reservationDate),
-      status: 'reserved',
     });
+    console.log(reservation);
 
     await reservation.save();
     res.status(201).json(reservation);

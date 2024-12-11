@@ -1,5 +1,5 @@
 export class Loan{
-    loanId: string;
+    _id: string;
     bookId: string;
     userId: string;
     loanDate: Date;
@@ -7,14 +7,14 @@ export class Loan{
     isReturned: boolean;
 
     constructor(
-        loanId: string,
+        _id: string,
         bookId: string,
         userId: string,
         loanDate: Date,
         returnDate: Date,
         isReturned: boolean,
     ){
-        this.loanId = loanId
+        this._id = _id
         this.bookId = bookId
         this.userId = userId
         this.loanDate = loanDate

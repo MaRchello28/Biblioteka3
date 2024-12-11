@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReservationService } from '../../services/reservation.service';
+import { Reservation } from '../../models/reservation.model';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
-import { ReservationService } from '../../services/reservation.service';
 import { LoanService } from '../../services/loan.service';
-import { Reservation } from '../../models/reservation.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Loan } from '../../models/loan.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-reserve-book',
@@ -15,17 +15,17 @@ import { Loan } from '../../models/loan.model';
   imports: [CommonModule, FormsModule]
 })
 export class ReserveBookComponent implements OnInit {
+  @Input() currentUser: User | null = null;
   books: Book[] = [];
   reservations: Reservation[] = [];
   sortProperty: keyof Book = 'title';
   sortDirection: 'asc' | 'desc' = 'asc';
-  isReserveBookVisible = true;
   filteredBooks: Book[] = [];
   searchQuery: string = '';
 
   constructor(
-    public bookService: BookService, 
-    public reservationService: ReservationService, 
+    private bookService: BookService, 
+    private reservationService: ReservationService, 
     public loanService: LoanService
   ) {}
 
@@ -43,27 +43,96 @@ export class ReserveBookComponent implements OnInit {
 
   loadReservations(): void {
     this.reservationService.getReservations().subscribe(reservations => {
-      this.reservations = reservations;
+      this.reservations = reservations.filter(reservation => reservation.userId === this.currentUser?._id);
+      const userReservationsCount = this.reservations.length;
     });
   }
 
-  canReserveBook(bookId: string): boolean {
-    const canReserve = this.reservationService.getReservations().subscribe(reservations => {
-      return reservations.length < 4;
+  canReserveBook(_id: string): boolean {
+    const isBookLoaned = this.isBookLoaned(_id);
+    const isBookReserved = this.isBookReserved(_id);
+    const userReservationsCount = this.reservations.filter(reservation => reservation.userId === this.currentUser?._id).length;
+    const isLimitReached = userReservationsCount >= 4;
+    
+    return !isBookLoaned && !isBookReserved && !isLimitReached;
+  }
+
+  reserveBook(_id: string): void {
+    const book = this.books.find(b => b._id === _id);
+    if (!book || !book.isAvailable) {
+      alert('Książka jest niedostępna do rezerwacji.');
+      return;
+    }
+
+    const newReservation: Reservation = {
+      userId: this.currentUser?._id ?? '',
+      bookId: _id,
+      reservationDate: new Date()
+    } as Reservation;
+
+    this.reservationService.addReservation(newReservation).subscribe(reservation => {
+      alert(`Książka została pomyślnie zarezerwowana.`);
+      
+      book.isAvailable = false;
+
+      this.bookService.updateBook(book).subscribe(updatedBook => {
+        this.loadBooks();
+      }, error => {
+        alert('Nie udało się zaktualizować książki.');
+      });
+
+      this.loadReservations();
+    }, error => {
+      alert('Nie udało się zarezerwować książki.');
     });
-    if (!canReserve) return false;
+  }
 
-    const isBookLoaned = this.loanService.isBookLoaned(bookId);
-    if (isBookLoaned) {
-      return false;
+  cancelReservation(_id: string): void {
+    const reservation = this.reservations.find(res => res._id === _id);
+    if (!reservation) {
+      alert('Nie znaleziono rezerwacji.');
+      return;
     }
 
-    const isBookReserved = this.isBookReserved(bookId);
-    if (isBookReserved) {
+    this.reservationService.cancelReservation(_id).subscribe(() => {
+      alert('Rezerwacja została anulowana.');
+
+      const book = this.books.find(b => b._id === reservation.bookId);
+      if (book) {
+        book.isAvailable = true;
+
+        this.bookService.updateBook(book).subscribe(updatedBook => {
+          this.loadBooks();
+        }, error => {
+          alert('Nie udało się zaktualizować książki.');
+        });
+      }
+
+      this.loadReservations();
+    }, error => {
+      alert('Nie udało się anulować rezerwacji.');
+    });
+  }
+
+  isBookReserved(_id: string): boolean {
+    return this.reservations.some(reservation => reservation.bookId === _id);
+  }
+
+  isBookLoaned(_id: string): boolean {
+    const book = this.books.find(book => book._id === _id);
+    if (!book) {
       return false;
     }
+    return book.isAvailable === false;
+  }
 
-    return true;
+  getFilteredBooks(): Book[] {
+    let filteredBooks = this.books.filter(book => 
+      book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      book.genre.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+    return filteredBooks;
   }
 
   sortBooks(property: keyof Book): void {
@@ -73,47 +142,18 @@ export class ReserveBookComponent implements OnInit {
       this.sortProperty = property;
       this.sortDirection = 'asc';
     }
-    const isNumber = typeof this.books[0][property] === 'number';
-    this.bookService.sortBooks(this.sortProperty, this.sortDirection === 'asc').subscribe(books => {
-      this.books = books;
-    });
-  }
-
-  sortLoans(property: keyof Loan): void {
-    this.loanService.sortLoans(property, this.sortDirection === 'asc').subscribe(loans => {
-    });
-  }
-
-  reserveBook(bookId: string): void {
-    if (this.canReserveBook(bookId)) {
-      const newReservation: Reservation = { bookId: bookId, userId: "1", reservationDate: new Date() } as Reservation;
-      this.reservationService.addReservation(newReservation).subscribe(() => {
-        this.loadReservations();
-      });
-    } else {
-      alert('Nie możesz zarezerwować tej książki.');
-    }
-  }
-
-  isBookReserved(bookId: string): boolean {
-    return this.reservations.some(reservation => reservation.bookId === bookId);
-  }
-
-  cancelReservation(reservationId: string): void {
-    this.reservationService.cancelReservation(reservationId).subscribe(() => {
-      this.loadReservations();
+    this.books = this.books.sort((a, b) => {
+      if (a[property] < b[property]) {
+        return this.sortDirection === 'asc' ? -1 : 1;
+      }
+      if (a[property] > b[property]) {
+        return this.sortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
     });
   }
 
   getBookById(bookId: string): Book | undefined {
-    return this.books.find(book => book.bookId === bookId);
-  }
-
-  getFilteredBooks(): Book[] {
-    return this.books.filter(book => 
-      book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      book.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      book.genre.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+    return this.books.find(book => book._id === bookId);
   }
 }

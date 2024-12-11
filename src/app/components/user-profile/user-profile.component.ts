@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,7 +21,7 @@ export class UserProfileComponent implements OnInit {
 
   errorMessage: string | null = null;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private userService: LoginService) {}
 
   ngOnInit(): void {
     if (!this.user) {
@@ -58,9 +59,9 @@ export class UserProfileComponent implements OnInit {
         case 'email':
         case 'role':
         case 'password':
-          this.user[field] = newValue;
+          this.updateUser(field, newValue);
           break;
-        case 'userId':
+        case '_id':
           this.user[field] = String(newValue);
           break;
         default:
@@ -82,5 +83,20 @@ export class UserProfileComponent implements OnInit {
 
   clearErrorMessage(): void {
     this.errorMessage = null;
+  }
+
+  updateUser(field: keyof User, newValue: string): void {
+    if (this.user) {
+      const updatedUser = { ...this.user, [field]: newValue };
+      this.userService.updateUser(updatedUser).subscribe(
+        () => {
+          this.user = updatedUser;
+          this.editingField = null;
+        },
+        (error) => {
+          this.setErrorMessage('Wystąpił błąd podczas zapisywania danych użytkownika.');
+        }
+      );
+    }
   }
 }

@@ -1,5 +1,5 @@
 <div class="loan-history">
-  <h3>Historia wypożyczeń</h3>
+  <h3>Twoje Wypożyczenia</h3>
   <table>
     <thead>
       <tr>
@@ -10,9 +10,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let loan of loans">
+      <tr *ngFor="let loan of filteredLoans">
         <td>{{ getBookTitle(loan.bookId) }}</td>
-        <td>{{ loan.loanDate| date: 'yyyy-MM-dd' }}</td>
+        <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.isReturned ? 'Zwrócona' : 'Niezwrócona' }}</td>
       </tr>

@@ -21,10 +21,10 @@ export class ReservationService {
   }
 
   updateReservation(updatedReservation: Reservation): Observable<Reservation> {
-    return this.http.put<Reservation>(`${this.apiUrl}/put/${updatedReservation.reservationId}`, updatedReservation);
+    return this.http.put<Reservation>(`${this.apiUrl}/put/${updatedReservation._id}`, updatedReservation);
   }
 
-  cancelReservation(reservationId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${reservationId}`);
+  cancelReservation(_id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${_id}`);
   }
 }

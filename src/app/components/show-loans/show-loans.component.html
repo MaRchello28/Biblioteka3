@@ -24,16 +24,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let loan of filteredLoans">
-        <td>{{ loan.bookId }}</td>
-        <td>{{ getBookById(loan.bookId)?.title }}</td>
-        <td>{{ getBookById(loan.bookId)?.author }}</td>
-        <td>{{ getUserById(loan.userId)?.firstName }}</td>
-        <td>{{ getUserById(loan.userId)?.lastName }}</td>
+        <td>{{ loan._id }}</td>
+        <td>{{ getBookById(loan._id)?.title }}</td>
+        <td>{{ getBookById(loan._id)?.author }}</td>
+        <td>{{ getUserById(loan._id)?.firstName }}</td>
+        <td>{{ getUserById(loan._id)?.lastName }}</td>
         <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{ loan.isReturned ? 'Zwrócono' : 'Nie zwrócono' }}</td>
         <td *ngIf="!loan.isReturned">
-          <button (click)="markAsReturned(loan.loanId)">Oznacz jako zwróconą</button>
+          <button (click)="markAsReturned(loan._id)">Oznacz jako zwróconą</button>
         </td>
       </tr>
     </tbody>

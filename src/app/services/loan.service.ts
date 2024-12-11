@@ -22,11 +22,11 @@ export class LoanService {
   }
 
   updateLoan(updatedLoan: Loan): Observable<Loan> {
-    return this.http.put<Loan>(`${this.apiUrl}/put/${updatedLoan.loanId}`, updatedLoan);
+    return this.http.put<Loan>(`${this.apiUrl}/put/${updatedLoan._id}`, updatedLoan);
   }
 
-  deleteLoan(loanId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${loanId}`);
+  deleteLoan(_id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${_id}`);
   }
 
   sortLoans(property: keyof Loan, ascending: boolean): Observable<Loan[]> {
@@ -34,16 +34,19 @@ export class LoanService {
     return this.http.get<Loan[]>(`${this.apiUrl}/sort/${property}/${direction}`);
   }
 
-  isBookLoaned(bookId: string): Observable<boolean> {
+  isBookLoaned(_id: string): Observable<boolean> {
+    console.log("isBookLoaned"+this.http.get<Loan[]>(`${this.apiUrl}/get`).pipe(
+      map((loans) => loans.some((loan) => loan._id === _id && !loan.isReturned))
+    ))
     return this.http.get<Loan[]>(`${this.apiUrl}/get`).pipe(
-      map(loans => loans.some(loan => loan.bookId === bookId && !loan.returnDate))
+      map((loans) => loans.some((loan) => loan._id === _id && !loan.isReturned))
     );
   }
 
   getLoanStatistics(books: any[]): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}/statistics`, { books });
   }
-  markAsReturned(loanId: string): Observable<Loan> {
-    return this.http.put<Loan>(`${this.apiUrl}/return/${loanId}`, {});
+  markAsReturned(_id: string): Observable<Loan> {
+    return this.http.put<Loan>(`${this.apiUrl}/return/${_id}`, {});
   }
 }

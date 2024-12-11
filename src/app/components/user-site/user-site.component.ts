@@ -61,11 +61,9 @@ export class UserSiteComponent implements OnInit {
   }
 
   loadUserLoans(): void {
-    if (this.currentUser) {
-      this.loanService.getLoans().subscribe(loans => {
-        this.loans = loans.filter(loan => loan.userId === this.currentUser?.userId);
-      });
-    }
+    this.loanService.getLoans().subscribe(loans => {
+      this.loans = loans;
+    });
   }
 
   showReserveBook(): void {
@@ -83,21 +81,28 @@ export class UserSiteComponent implements OnInit {
   showOverdueBooks(): void {
     const today = new Date();
     this.overdueLoans = this.loans.filter(loan => !loan.isReturned && new Date(loan.returnDate) < today);
-
+    console.log('Overdue loans:', this.overdueLoans);
+  
     if (this.overdueLoans.length > 0) {
       this.isOverdueAlertVisible = true;
-
+  
       const overdueBookTitles: string[] = [];
-      this.overdueLoans.forEach(loan => {
-        this.bookService.getBooks().subscribe(books => {
-          const book = books.find(b => b.bookId === loan.bookId);
+      const overdueBooks$ = this.bookService.getBooks();
+      overdueBooks$.subscribe(books => {
+        console.log('Books from API:', books);
+  
+        this.overdueLoans.forEach(loan => {
+          const book = books.find(b => b._id === loan.bookId);
           if (book) overdueBookTitles.push(book.title);
         });
+        console.log('Overdue book titles:', overdueBookTitles);
+  
+        if (overdueBookTitles.length > 0) {
+          setTimeout(() => {
+            alert(`Masz niezwrócone książki po terminie: ${overdueBookTitles.join(', ')}`);
+          }, 500);
+        }
       });
-
-      setTimeout(() => {
-        alert(`Masz niezwrócone książki po terminie: ${overdueBookTitles.join(', ')}`);
-      }, 500);
     } else {
       this.isOverdueAlertVisible = false;
       alert("Nie masz żadnych książek niezwróconych po terminie.");

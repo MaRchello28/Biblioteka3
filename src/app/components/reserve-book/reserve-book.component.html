@@ -19,7 +19,7 @@
         <td>{{ getBookById(reservation.bookId)?.publicationYear }}</td>
         <td>{{ reservation.reservationDate | date }}</td>
         <td>
-          <button (click)="cancelReservation(reservation.reservationId)">Anuluj rezerwację</button>
+          <button (click)="cancelReservation(reservation._id)">Anuluj rezerwację</button>
         </td>
       </tr>
     </tbody>
@@ -30,7 +30,7 @@
   <h2>Rezerwuj książki</h2>
 
   <div class="search-container">
-    <input type="text" [(ngModel)]="searchQuery" id="searchQuery" placeholder="Wyszukaj" />
+    <input type="text" [(ngModel)]="searchQuery" id="searchQuery" placeholder="Wyszukaj książki..." />
   </div>
   
   <table>
@@ -51,8 +51,8 @@
         <td>{{ book.publicationYear }}</td>
         <td>
           <button 
-            [disabled]="isBookReserved(book.bookId) || loanService.isBookLoaned(book.bookId) || !canReserveBook(book.bookId)" 
-            (click)="reserveBook(book.bookId)">
+            [disabled]="isBookReserved(book._id) || isBookLoaned(book._id) || !canReserveBook(book._id)" 
+            (click)="reserveBook(book._id)">
             Zarezerwuj
           </button>
         </td>

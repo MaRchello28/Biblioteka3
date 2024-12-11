@@ -7,9 +7,6 @@ const bookSchema = new mongoose.Schema(
     genre: { type: String, required: true },
     publicationYear: { type: Number, required: true },
     isAvailable: { type: Boolean, required: true }
-  },
-  { 
-    _id: true 
   }
 );
 

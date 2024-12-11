@@ -7,12 +7,14 @@
   </div>
 
   <div class="main-content">
-    
-    <app-loan-book *ngIf="isLoanBookVisible" [loans]="loans"></app-loan-book>
 
-    <app-reserve-book *ngIf="isReserveBookVisible"></app-reserve-book>
+    <div *ngIf="isLoanBookVisible">
+      <app-loan-book [loans]="loans" [currentUserId]="currentUser?._id ?? null"></app-loan-book>
+    </div>
+
+    <app-reserve-book *ngIf="isReserveBookVisible" [currentUser]="currentUser"></app-reserve-book>
 
     <app-user-profile *ngIf="isProfileVisible" [user]="currentUser"></app-user-profile>
-    
+
   </div>
 </div>

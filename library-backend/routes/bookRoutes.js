@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const Book = require('../models/Book');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -32,9 +33,9 @@ router.post('/post', async (req, res) => {
 
 router.put('/put/:id', async (req, res) => {
   try {
-    const bookId = req.params.id;
+    const _id = req.params.id;
     const updatedBook = await Book.findOneAndUpdate(
-      { _id: bookId },
+      { _id: _id },
       req.body,
       { new: true }
     );
@@ -51,9 +52,9 @@ router.put('/put/:id', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
   try {
-    const bookId = req.params.id;
+    const _id = req.params.id;
     const deletedBook = await Book.findOneAndDelete(
-      { _id: bookId },
+      { _id: _id },
       req.body,
       { new: true }
     );

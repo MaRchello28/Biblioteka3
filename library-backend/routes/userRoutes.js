@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
+const Loan = require('../models/Loan');
 const router = express.Router();
-const mongoose = require('mongoose');
 
 router.get('/get', async (req, res) => {
   try {
@@ -12,28 +12,25 @@ router.get('/get', async (req, res) => {
   }
 });
 
-router.post('/post', async (req, res) => {
-  const { firstName, lastName, email, role, password } = req.body;
-  try {
-    const user = new User({
-      firstName,
-      lastName,
-      email,
-      role,
-      password
-    });
-    await user.save();
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+router.post('/post', (req, res) => {
+  const newUser = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    role: req.body.role,
+    password: req.body.password,
+  });
+
+  newUser.save()
+    .then(user => res.status(201).json(user))
+    .catch(err => res.status(500).json({ message: err.message }));
 });
 
 router.put('/put/:id', async (req, res) => {
   try {
-    const userId = req.params.id;
+    const _id = req.params.id;
     const updatedUser = await User.findOneAndUpdate(
-      { _id: userId },
+      { _id: _id },
       req.body,
       { new: true }
     );
@@ -47,11 +44,32 @@ router.put('/put/:id', async (req, res) => {
   }
 });
 
-router.delete('/delete/:id', async (req, res) => {
-  console.log('delete');
+router.put('/add-loan/:_id', async (req, res) => {
+  const { _id, loanDate, returnDate, isReturned } = req.body;
   try {
-    const userId = req.params.id;
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const _id = req.params._id;
+
+    const newLoan = new Loan({
+      user: _id,
+      book: _id,
+      loanDate,
+      returnDate,
+      isReturned
+    });
+
+    await newLoan.save();
+
+
+    res.status(200).json(newLoan);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const deletedUser = await User.findByIdAndDelete(_id);
     if (!deletedUser) {
       return res.status(404).json({ message: 'User not found' });
     }

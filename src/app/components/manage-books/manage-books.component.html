@@ -50,7 +50,7 @@
       <li *ngFor="let book of filteredBooks">
         {{ book.title }} - {{ book.author }} ({{ book.publicationYear }})
         <button (click)="editBook(book)">Edytuj</button>
-        <button (click)="deleteBook(book.bookId)">Usuń</button>
+        <button (click)="deleteBook(book._id)">Usuń</button>
       </li>
     </ul>
   </div>

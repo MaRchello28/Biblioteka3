@@ -51,45 +51,45 @@ export class LoginLabelComponent {
 
   onRegisterSubmit(): void {
     this.errorMessages = [];
-
+  
     if (!this.email || !this.password || !this.firstName || !this.lastName || !this.confirmPassword) {
       this.errorMessages.push('Proszę wypełnić wszystkie pola.');
       return;
     }
-
+  
     if (this.password !== this.confirmPassword) {
       this.errorMessages.push('Hasła muszą być takie same!');
+      return;
     }
-
+  
     this.loginService.getUsers().subscribe(users => {
       if (users.some(u => u.email === this.email)) {
         this.errorMessages.push('Użytkownik z tym emailem już istnieje.');
+        return;
       }
-
+  
       if (!/^[a-zA-Z]+$/.test(this.firstName)) {
         this.errorMessages.push('Imię może zawierać tylko litery.');
       }
-
+  
       if (!/^[a-zA-Z]+$/.test(this.lastName)) {
         this.errorMessages.push('Nazwisko może zawierać tylko litery.');
       }
-
+  
       if (!/\S+@\S+\.\S+/.test(this.email)) {
         this.errorMessages.push('To nie jest poprawny adres e-mail.');
       }
-
+  
       if (this.errorMessages.length > 0) {
         return;
       }
-
+  
       this.loginService.addUser({
-        userId: "0",
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
         role: 'user',
-        password: this.password,
-        borrowedBooks: []
+        password: this.password
       }).subscribe(newUser => {
         this.errorMessages = [];
         this.isRegistering = false;

@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 export class ManageUsersComponent implements OnInit {
   users: User[] = [];
   selectedUser: User | null = null;
-  newUser: User = new User("0", '', '', '', 'user', '', []);  
+  newUser: User = new User('', '', '', 'user', '1234');  
 
   constructor(private loginService: LoginService) {}
 
@@ -30,7 +30,7 @@ export class ManageUsersComponent implements OnInit {
 
   saveUser(): void {
     if (this.selectedUser) {
-      const index = this.users.findIndex(user => user.userId === this.selectedUser?.userId);
+      const index = this.users.findIndex(user => user._id === this.selectedUser?._id);
       if (index !== -1) {
         this.users[index] = this.selectedUser;
       }
@@ -41,7 +41,7 @@ export class ManageUsersComponent implements OnInit {
   addUser(): void {
     if (this.isValidUser(this.newUser)) {
       this.loginService.addUser(this.newUser);
-      this.newUser = new User("0", '', '', '', 'user', '', []);  
+      this.newUser = new User('', '', '', 'user', '1234');  
     } else {
       alert('Proszę uzupełnić wszystkie pola');
     }
@@ -51,7 +51,7 @@ export class ManageUsersComponent implements OnInit {
     return user.firstName !== '' && user.lastName !== '' && user.email !== '' && user.password !== '';
   }
 
-  deleteUser(userId: string): void {
-    this.users = this.users.filter(user => user.userId === userId);
+  deleteUser(_id: string): void {
+    this.users = this.users.filter(user => user._id === _id);
   }
 }

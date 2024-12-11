@@ -84,8 +84,8 @@ export class ManageBooksComponent implements OnInit {
     this.editingBookForm.reset();  
   }
 
-  deleteBook(bookId: string): void {
-    this.bookService.deleteBook(bookId).subscribe(() => {
+  deleteBook(_id: string): void {
+    this.bookService.deleteBook(_id).subscribe(() => {
       this.ngOnInit();  
     });
   }

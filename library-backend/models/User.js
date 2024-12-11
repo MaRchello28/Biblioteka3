@@ -6,11 +6,7 @@ const userSchema = new mongoose.Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, required: true },
-    password: { type: String, required: true },
-    loans: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Loan' }],
-  },
-  { 
-    _id: true 
+    password: { type: String, required: true }
   }
 );
 
