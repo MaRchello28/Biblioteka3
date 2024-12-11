@@ -6,7 +6,6 @@
     <button (click)="raport()">Raportuj</button>
   </div>
 
-
   <div class="main-content">
     <app-show-loans *ngIf="isLoanListVisible"></app-show-loans>
     <app-manage-books *ngIf="isManageBooksVisible"></app-manage-books>
@@ -17,6 +16,12 @@
       <div class="search-form">
         <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj po tytule lub autorze" />
       </div>
+
+      <div>
+        <label for="minLoans">Minimalna liczba wypożyczeń:</label>
+        <input [(ngModel)]="minLoans" (input)="onSearchChange()" type="number" id="minLoans" />
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -24,16 +29,14 @@
             <th>Tytuł</th>
             <th>Autor</th>
             <th>Ilość wypożyczeń</th>
-            <th>Procent wypożyczeń</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let stat of filteredLoanStatistics">
-            <td>{{ stat.rank }}</td> 
+          <tr *ngFor="let stat of filteredLoanStatistics; let i = index">
+            <td>{{ i + 1 }}</td>
             <td>{{ stat.title }}</td>
             <td>{{ stat.author }}</td>
             <td>{{ stat.totalLoans }}</td>
-            <td>{{ stat.percentage | number:'1.2-2' }}%</td>
           </tr>
         </tbody>
       </table>

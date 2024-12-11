@@ -1,0 +1,42 @@
+<div class="reserve-table">
+    <h2>Lista rezerwacji</h2>
+  
+    <div class="search-form">
+      <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj po tytule, autorze, imieniu lub nazwisku" />
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>ID książki</th>
+          <th>Tytuł</th>
+          <th>Autor</th>
+          <th>Imię użytkownika</th>
+          <th>Nazwisko użytkownika</th>
+          <th>Data rezerwacji</th>
+          <th>Anuluj rezerwacje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of filteredReservations">
+          <td>{{ reservation._id }}</td>
+          <td>{{ getBookById(reservation.bookId)?.title }}</td>
+          <td>{{ getBookById(reservation.bookId)?.author }}</td>
+          <td>{{ getUserById(reservation.userId)?.firstName }}</td>
+          <td>{{ getUserById(reservation.userId)?.lastName }}</td>
+          <td>{{ reservation.reservationDate | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <button (click)="cancelReservation(reservation._id)">Anuluj</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" [(ngModel)]="showReserves">
+      <span class="slider"></span>
+    </label>
+    <label>{{ showReserves ? 'Rezerwacje' : 'Wypożyczenia' }}</label>
+  </div>  

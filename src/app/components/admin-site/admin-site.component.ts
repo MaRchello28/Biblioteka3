@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ShowLoansComponent } from '../show-loans/show-loans.component';
-import { ManageBooksComponent } from '../manage-books/manage-books.component'; 
+import { ManageBooksComponent } from '../manage-books/manage-books.component';
 import { ManageUsersComponent } from '../manage-users/manage-users.component';
-import { LoanService } from '../../services/loan.service'; 
-import { BookService } from '../../services/book.service';  
-import { Book } from '../../models/book.model'; 
+import { LoanService } from '../../services/loan.service';
+import { BookService } from '../../services/book.service';
+import { Book } from '../../models/book.model';
+import { Loan } from '../../models/loan.model';
 
 @Component({
   selector: 'app-admin-site',
@@ -23,7 +24,9 @@ export class AdminSiteComponent implements OnInit {
   loanStatistics: any[] = []; 
   filteredLoanStatistics: any[] = [];
   searchQuery: string = ''; 
+  minLoans: number = 0; // Zmienna do filtrowania minimalnej liczby wypożyczeń
   books: Book[] = [];
+  loans: Loan[] = [];
 
   constructor(
     private loanService: LoanService,
@@ -31,7 +34,47 @@ export class AdminSiteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadLoanStatistics();
+    this.loadBooks();
+  }
+
+  loadBooks(): void {
+    this.bookService.getBooks().subscribe((books: Book[]) => {
+      this.books = books;
+      this.loadLoans();
+    });
+  }
+
+  loadLoans(): void {
+    this.loanService.getLoans().subscribe((loans: Loan[]) => {
+      this.loans = loans;
+      this.calculateLoanStatistics();
+    });
+  }
+
+  calculateLoanStatistics(): void {
+    this.loanStatistics = this.books.map(book => {
+      const loanCount = this.loans.filter(loan => loan.bookId === book._id).length;
+      return {
+        bookId: book._id,
+        title: book.title,
+        author: book.author,
+        totalLoans: loanCount
+      };
+    });
+    this.loanStatistics.sort((a, b) => b.totalLoans - a.totalLoans);
+    this.filterLoanStatistics();
+  }
+
+  filterLoanStatistics(): void {
+    this.filteredLoanStatistics = this.loanStatistics.filter(stat => 
+      (stat.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+      stat.author.toLowerCase().includes(this.searchQuery.toLowerCase())) &&
+      stat.totalLoans >= this.minLoans // Filtrowanie na podstawie minimalnej liczby wypożyczeń
+    );
+  }
+
+  onSearchChange(): void {
+    this.filterLoanStatistics();  
   }
 
   SeeList(): void {
@@ -52,7 +95,6 @@ export class AdminSiteComponent implements OnInit {
   raport(): void {
     this.resetVisibility();
     this.isReportVisible = true;
-    this.loadLoanStatistics();  
   }
 
   private resetVisibility(): void {
@@ -60,46 +102,5 @@ export class AdminSiteComponent implements OnInit {
     this.isManageBooksVisible = false;
     this.isManageUsersVisible = false;
     this.isReportVisible = false;
-  }
-
-  private loadLoanStatistics(): void {
-    // Subskrypcja na Observable<Book[]>
-    this.bookService.getBooks().subscribe((books: Book[]) => {  
-      this.books = books;  // Zapisanie książek do tablicy 'books'
-
-      // Subskrypcja na Observable z danymi wypożyczeń
-      this.loanService.getLoanStatistics(books).subscribe((loanData: any[]) => {
-        const totalLoans = loanData.reduce((sum: number, stat: any) => sum + stat.totalLoans, 0);  
-
-        this.loanStatistics = loanData.map((stat: any, index: number) => {  // Typowanie parametrów
-          const percentage = totalLoans ? (stat.totalLoans / totalLoans) * 100 : 0;
-          return {
-            rank: index + 1, 
-            ...stat,
-            percentage: percentage
-          };
-        });
-
-        this.loanStatistics.sort((a, b) => b.totalLoans - a.totalLoans);
-
-        // Ustawienie przefiltrowanych danych
-        this.filteredLoanStatistics = [...this.loanStatistics];
-      });
-    });
-  }
-
-  filterBooks(): void {
-    if (!this.searchQuery) {
-      this.filteredLoanStatistics = [...this.loanStatistics];  
-    } else {
-      this.filteredLoanStatistics = this.loanStatistics.filter(stat =>
-        stat.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        stat.author.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    }
-  }
-
-  onSearchChange(): void {
-    this.filterBooks();  
   }
 }

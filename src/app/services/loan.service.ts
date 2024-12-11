@@ -42,11 +42,25 @@ export class LoanService {
       map((loans) => loans.some((loan) => loan._id === _id && !loan.isReturned))
     );
   }
-
-  getLoanStatistics(books: any[]): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiUrl}/statistics`, { books });
-  }
+  
   markAsReturned(_id: string): Observable<Loan> {
     return this.http.put<Loan>(`${this.apiUrl}/return/${_id}`, {});
+  }
+  
+  getLoanStatistics(books: any[]): Observable<any[]> {
+    return this.getLoans().pipe(
+      map((loans: Loan[]) => {
+        const statistics = books.map(book => {
+          const loanCount = loans.filter(loan => loan.bookId === book._id && !loan.isReturned).length;
+          return {
+            bookId: book._id,
+            title: book.title,
+            author: book.author,
+            totalLoans: loanCount
+          };
+        });
+        return statistics.sort((a, b) => b.totalLoans - a.totalLoans);
+      })
+    );
   }
 }

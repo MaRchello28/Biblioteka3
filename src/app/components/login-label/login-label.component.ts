@@ -30,7 +30,7 @@ export class LoginLabelComponent {
 
   onLoginSubmit(): void {
     this.errorMessages = [];
-  
+    
     if (!this.email || !this.password) {
       this.errorMessages.push('Proszę wypełnić wszystkie pola.');
       return;
@@ -42,7 +42,11 @@ export class LoginLabelComponent {
       if (user) {
         this.errorMessages = [];
         this.loginService.setCurrentUser(user);
-        this.router.navigate(['/user-site']);
+        if (user.role === 'admin') {
+          this.router.navigate(['/admin-site']);
+        } else if (user.role === 'user') {
+          this.router.navigate(['/user-site']);
+        }
       } else {
         this.errorMessages.push('Nieprawidłowy email lub hasło.');
       }

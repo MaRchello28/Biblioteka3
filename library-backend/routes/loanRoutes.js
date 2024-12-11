@@ -38,16 +38,22 @@ router.post('/post', async (req, res) => {
   }
 });
 
-router.put('/users/:_id', async (req, res) => {
+router.put('/put/:_id', async (req, res) => {
   const { _id } = req.params;
-  const { loanId } = req.body;
+  const updates = req.body;
+
   try {
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedLoan = await Loan.findByIdAndUpdate(
       _id,
-      { $push: { loans: loanId } },
+      updates,
       { new: true }
-    ).populate('loans');
-    res.status(200).json(updatedUser || { message: 'User not found' });
+    );
+
+    if (!updatedLoan) {
+      return res.status(404).json({ message: 'Loan not found' });
+    }
+
+    res.status(200).json(updatedLoan);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

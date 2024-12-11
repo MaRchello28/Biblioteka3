@@ -8,19 +8,32 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css'],
-  standalone: true, 
+  standalone: true,
   imports: [CommonModule, FormsModule]
 })
 export class ManageUsersComponent implements OnInit {
   users: User[] = [];
   selectedUser: User | null = null;
-  newUser: User = new User('', '', '', 'user', '1234');  
+  newUser: User = new User('', '', '', 'user', '');
+  confirmPassword: string = '';
+  showUserList = true;
+  emailError: string = '';
+  passwordError: string = '';
 
   constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {
-    this.loginService.getUsers().subscribe(users => {  
-      this.users = users;  
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.loginService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+      },
+      error: (err) => {
+        console.error('Błąd ładowania użytkowników', err);
+      }
     });
   }
 
@@ -30,18 +43,46 @@ export class ManageUsersComponent implements OnInit {
 
   saveUser(): void {
     if (this.selectedUser) {
-      const index = this.users.findIndex(user => user._id === this.selectedUser?._id);
-      if (index !== -1) {
-        this.users[index] = this.selectedUser;
-      }
-      this.selectedUser = null;
+      this.loginService.updateUser(this.selectedUser).subscribe({
+        next: (updatedUser) => {
+          const index = this.users.findIndex(user => user._id === updatedUser._id);
+          if (index !== -1) {
+            this.users[index] = updatedUser;
+          }
+          this.selectedUser = null;
+        },
+        error: (err) => {
+          console.error('Błąd podczas zapisywania użytkownika', err);
+        }
+      });
     }
   }
 
   addUser(): void {
+    this.emailError = '';
+    this.passwordError = '';
+
+    if (!this.isValidEmail(this.newUser.email)) {
+      alert('Proszę wprowadzić poprawny adres email');
+      return;
+    }
+
+    if (this.newUser.password !== this.confirmPassword) {
+      alert('Hasła muszą być takie same');
+      return;
+    }
+
     if (this.isValidUser(this.newUser)) {
-      this.loginService.addUser(this.newUser);
-      this.newUser = new User('', '', '', 'user', '1234');  
+      this.loginService.addUser(this.newUser).subscribe({
+        next: (newUser) => {
+          this.users.push(newUser);
+          this.newUser = new User('', '', '', 'user', '');
+          this.confirmPassword = '';
+        },
+        error: (err) => {
+          console.error('Błąd podczas dodawania użytkownika', err);
+        }
+      });
     } else {
       alert('Proszę uzupełnić wszystkie pola');
     }
@@ -51,7 +92,28 @@ export class ManageUsersComponent implements OnInit {
     return user.firstName !== '' && user.lastName !== '' && user.email !== '' && user.password !== '';
   }
 
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  }
+
   deleteUser(_id: string): void {
-    this.users = this.users.filter(user => user._id === _id);
+    const confirmDelete = window.confirm('Czy na pewno chcesz usunąć tego użytkownika?');
+    if (confirmDelete) {
+      this.loginService.deleteUser(_id).subscribe({
+        next: () => {
+          this.users = this.users.filter(user => user._id !== _id);
+        },
+        error: (err) => {
+          console.error('Błąd podczas usuwania użytkownika', err);
+        }
+      });
+    } else {
+      console.log('Usuwanie użytkownika anulowane');
+    }
+  }
+
+  toggleView(): void {
+    this.showUserList = !this.showUserList;
   }
 }
