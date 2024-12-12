@@ -35,7 +35,6 @@
       <table>
         <thead>
           <tr>
-            <th>Pozycja</th>
             <th>Tytuł</th>
             <th>Autor</th>
             <th>Ilość wypożyczeń</th>
@@ -45,7 +44,6 @@
             @for(stat of filteredLoanStatistics; track stat)
             {
               <tr>
-                <td>{{ i + 1 }}</td>
                 <td>{{ stat.title }}</td>
                 <td>{{ stat.author }}</td>
                 <td>{{ stat.totalLoans }}</td>
