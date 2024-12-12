@@ -12,14 +12,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let book of books">
-          <td>{{ book._id }}</td>
-          <td>{{ book.title }}</td>
-          <td>{{ book.author }}</td>
-          <td>{{ book.genre }}</td>
-          <td>{{ book.publicationYear }}</td>
-          <td>{{ book.isAvailable ? 'Dostępna' : 'Niedostępna' }}</td>
-        </tr>
+        @for(book of books; track book)
+        {
+          <tr>
+            <td>{{ book._id }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.genre }}</td>
+            <td>{{ book.publicationYear }}</td>
+            <td>{{ book.isAvailable ? 'Dostępna' : 'Niedostępna' }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>

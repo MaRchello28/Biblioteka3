@@ -10,12 +10,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let loan of filteredLoans">
-        <td>{{ getBookTitle(loan.bookId) }}</td>
-        <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ loan.isReturned ? 'Zwrócona' : 'Niezwrócona' }}</td>
-      </tr>
+      @for(loan of filteredLoans; track loan)
+      {
+        <tr>
+          <td>{{ getBookTitle(loan.bookId) }}</td>
+          <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ loan.isReturned ? 'Zwrócona' : 'Niezwrócona' }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

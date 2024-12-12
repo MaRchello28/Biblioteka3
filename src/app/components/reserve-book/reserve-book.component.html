@@ -12,16 +12,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reservation of reservations">
-        <td>{{ getBookById(reservation.bookId)?.title }}</td>
-        <td>{{ getBookById(reservation.bookId)?.author }}</td>
-        <td>{{ getBookById(reservation.bookId)?.genre }}</td>
-        <td>{{ getBookById(reservation.bookId)?.publicationYear }}</td>
-        <td>{{ reservation.reservationDate | date }}</td>
-        <td>
-          <button (click)="cancelReservation(reservation._id)">Anuluj rezerwację</button>
-        </td>
-      </tr>
+      @for(reservation of reservations; track reservation)
+      {
+        <tr>
+          <td>{{ getBookById(reservation.bookId)?.title }}</td>
+          <td>{{ getBookById(reservation.bookId)?.author }}</td>
+          <td>{{ getBookById(reservation.bookId)?.genre }}</td>
+          <td>{{ getBookById(reservation.bookId)?.publicationYear }}</td>
+          <td>{{ reservation.reservationDate | date }}</td>
+          <td>
+            <button (click)="cancelReservation(reservation._id)">Anuluj rezerwację</button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>
@@ -44,19 +47,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of getFilteredBooks()">
-        <td>{{ book.title }}</td>
-        <td>{{ book.author }}</td>
-        <td>{{ book.genre }}</td>
-        <td>{{ book.publicationYear }}</td>
-        <td>
-          <button 
-            [disabled]="isBookReserved(book._id) || isBookLoaned(book._id) || !canReserveBook(book._id)" 
-            (click)="reserveBook(book._id)">
-            Zarezerwuj
-          </button>
-        </td>
-      </tr>
+      @for(book of getFilteredBooks(); track book)
+      {
+        <tr>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.genre }}</td>
+          <td>{{ book.publicationYear }}</td>
+          <td>
+            <button 
+              [disabled]="isBookReserved(book._id) || isBookLoaned(book._id) || !canReserveBook(book._id)" 
+              (click)="reserveBook(book._id)">
+              Zarezerwuj
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

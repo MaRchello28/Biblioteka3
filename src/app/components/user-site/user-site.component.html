@@ -7,14 +7,19 @@
   </div>
 
   <div class="main-content">
-
-    <div *ngIf="isLoanBookVisible">
-      <app-loan-book [loans]="loans" [currentUserId]="currentUser?._id ?? null"></app-loan-book>
-    </div>
-
-    <app-reserve-book *ngIf="isReserveBookVisible" [currentUser]="currentUser"></app-reserve-book>
-
-    <app-user-profile *ngIf="isProfileVisible" [user]="currentUser"></app-user-profile>
-
+    @if(isLoanBookVisible)
+    {
+      <div>
+        <app-loan-book [loans]="loans" [currentUserId]="currentUser?._id ?? null"></app-loan-book>
+      </div>
+    }
+    @if(isReserveBookVisible)
+    {
+      <app-reserve-book [currentUser]="currentUser"></app-reserve-book>
+    }
+    @if(isProfileVisible)
+    {
+      <app-user-profile [user]="currentUser"></app-user-profile>
+    }
   </div>
 </div>

@@ -1,9 +1,14 @@
 <div class="user-profile-container">
   <h2>Mój Profil</h2>
 
-  <div *ngIf="errorMessage" class="error-message">
-    <strong>{{ errorMessage }}</strong>
-  </div>
+  
+    @if(errorMessage)
+    {
+      <div class="error-message">
+        <strong>{{ errorMessage }}</strong>
+      </div>
+      
+    }
 
   <table>
     <thead>
@@ -14,78 +19,109 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="editingField !== 'firstName'">
-        <td>Imię</td>
-        <td>{{ user?.firstName }}</td>
-        <td>
-          <button (click)="startEdit('firstName')">Edytuj</button>
-        </td>
+      <tr>
+        @if(editingField !== 'firstName')
+        {
+          <td>Imię</td>
+          <td>{{ user?.firstName }}</td>
+          <td>
+            <button (click)="startEdit('firstName')">Edytuj</button>
+          </td>
+        }
       </tr>
-      <tr *ngIf="editingField === 'firstName'">
-        <td colspan="3">
-          <app-user-edit
-            [fieldName]="'Imię'"
-            [fieldValue]="editableUser?.firstName || ''"
-            (save)="saveEdit($event)"
-            (cancel)="cancelEdit()"
-          ></app-user-edit>
-        </td>
-      </tr>
-
-      <tr *ngIf="editingField !== 'lastName'">
-        <td>Nazwisko</td>
-        <td>{{ user?.lastName }}</td>
-        <td>
-          <button (click)="startEdit('lastName')">Edytuj</button>
-        </td>
-      </tr>
-      <tr *ngIf="editingField === 'lastName'">
-        <td colspan="3">
-          <app-user-edit
-            [fieldName]="'Nazwisko'"
-            [fieldValue]="editableUser?.lastName || ''"
-            (save)="saveEdit($event)"
-            (cancel)="cancelEdit()"
-          ></app-user-edit>
-        </td>
+      <tr>
+        @if(editingField === 'firstName')
+        {
+          <td colspan="3">
+            <app-user-edit
+              [fieldName]="'Imię'"
+              [fieldValue]="editableUser?.firstName || ''"
+              (save)="saveEdit($event)"
+              (cancel)="cancelEdit()"
+            ></app-user-edit>
+          </td>
+        }
       </tr>
 
-      <tr *ngIf="editingField !== 'email'">
-        <td>Email</td>
-        <td>{{ user?.email }}</td>
-        <td>
-          <button (click)="startEdit('email')">Edytuj</button>
-        </td>
+      <tr>
+        @if(editingField !== 'lastName')
+        {
+          <td>Nazwisko</td>
+          <td>{{ user?.lastName }}</td>
+          <td>
+            <button (click)="startEdit('lastName')">Edytuj</button>
+          </td>
+        }
       </tr>
-      <tr *ngIf="editingField === 'email'">
-        <td colspan="3">
-          <app-user-edit
-            [fieldName]="'Email'"
-            [fieldValue]="editableUser?.email || ''"
-            (save)="saveEdit($event)"
-            (cancel)="cancelEdit()"
-          ></app-user-edit>
-        </td>
+      <tr>
+        @if(editingField === 'lastName')
+        {
+          <td colspan="3">
+            <app-user-edit
+              [fieldName]="'Nazwisko'"
+              [fieldValue]="editableUser?.lastName || ''"
+              (save)="saveEdit($event)"
+              (cancel)="cancelEdit()"
+            ></app-user-edit>
+          </td>
+        }
       </tr>
 
-      <tr *ngIf="editingField !== 'password'">
-        <td>Hasło</td>
-        <td>{{ isPasswordVisible ? user?.password : '********' }}</td>
-        <td>
-          <button (click)="startEdit('password')">Edytuj</button>
-          <button *ngIf="!isPasswordVisible" (click)="togglePasswordVisibility()" class="reveal-password-button">Wyświetl hasło</button>
-          <button *ngIf="isPasswordVisible" (click)="togglePasswordVisibility()" class="hide-password-button">Ukryj hasło</button>
-        </td>
+      <tr>
+        @if(editingField !== 'email')
+        {
+          <td>Email</td>
+          <td>{{ user?.email }}</td>
+          <td>
+            <button (click)="startEdit('email')">Edytuj</button>
+          </td>
+        }
       </tr>
-      <tr *ngIf="editingField === 'password'">
-        <td colspan="3">
-          <app-user-edit
-            [fieldName]="'Hasło'"
-            [fieldValue]="editableUser?.password || ''"
-            (save)="saveEdit($event)"
-            (cancel)="cancelEdit()"
-          ></app-user-edit>
-        </td>
+      <tr>
+        @if(editingField === 'email')
+        {
+          <td colspan="3">
+            <app-user-edit
+              [fieldName]="'Email'"
+              [fieldValue]="editableUser?.email || ''"
+              (save)="saveEdit($event)"
+              (cancel)="cancelEdit()"
+            ></app-user-edit>
+          </td>
+        }
+        
+      </tr>
+
+      <tr>
+        @if(editingField !== 'password')
+        {
+          <td>Hasło</td>
+          <td>{{ isPasswordVisible ? user?.password : '********' }}</td>
+          <td>
+            <button (click)="startEdit('password')">Edytuj</button>
+            @if(!isPasswordVisible)
+            {
+              <button (click)="togglePasswordVisibility()" class="reveal-password-button">Wyświetl hasło</button>
+            }
+            @if(isPasswordVisible)
+            {
+              <button (click)="togglePasswordVisibility()" class="hide-password-button">Ukryj hasło</button>
+            }
+          </td>
+        }
+      </tr>
+      <tr>
+        @if(editingField === 'password')
+        {
+          <td colspan="3">
+            <app-user-edit
+              [fieldName]="'Hasło'"
+              [fieldValue]="editableUser?.password || ''"
+              (save)="saveEdit($event)"
+              (cancel)="cancelEdit()"
+            ></app-user-edit>
+          </td>
+        }
       </tr>
     </tbody>
   </table>

@@ -18,17 +18,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let reservation of filteredReservations">
-          <td>{{ reservation._id }}</td>
-          <td>{{ getBookById(reservation.bookId)?.title }}</td>
-          <td>{{ getBookById(reservation.bookId)?.author }}</td>
-          <td>{{ getUserById(reservation.userId)?.firstName }}</td>
-          <td>{{ getUserById(reservation.userId)?.lastName }}</td>
-          <td>{{ reservation.reservationDate | date: 'yyyy-MM-dd' }}</td>
-          <td>
-            <button (click)="cancelReservation(reservation._id)">Anuluj</button>
-          </td>
-        </tr>
+        @for(reservation of filteredReservations; track reservation)
+        {
+          <tr>
+            <td>{{ reservation._id }}</td>
+            <td>{{ getBookById(reservation.bookId)?.title }}</td>
+            <td>{{ getBookById(reservation.bookId)?.author }}</td>
+            <td>{{ getUserById(reservation.userId)?.firstName }}</td>
+            <td>{{ getUserById(reservation.userId)?.lastName }}</td>
+            <td>{{ reservation.reservationDate | date: 'yyyy-MM-dd' }}</td>
+            <td>
+              <button (click)="cancelReservation(reservation._id)">Anuluj</button>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>

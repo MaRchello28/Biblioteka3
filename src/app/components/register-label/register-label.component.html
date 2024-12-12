@@ -54,8 +54,11 @@
     <div class="input-group">
       <input type="submit" value="Zarejestruj się">
     </div>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
+    <div class="error-message">
+      @if(errorMessage)
+      {
+        {{ errorMessage }}
+      }
     </div>
   </form>
   <div>

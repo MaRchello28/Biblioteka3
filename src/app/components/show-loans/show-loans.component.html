@@ -5,9 +5,10 @@
   </label>
 </div>
 
-<!-- Tabela wypożyczeń -->
-<div *ngIf="!showReserves" class="loan-table">
-  <h2>Lista wypożyczeń</h2>
+<div class="loan-table">
+  @if(!showReserves)
+  {
+    <h2>Lista wypożyczeń</h2>
 
   <div class="search-form">
     <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj..."/>
@@ -28,30 +29,35 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let loan of filteredLoans">
-        <td>{{ loan._id }}</td>
-        <td>{{ getBookById(loan.bookId)?.title }}</td>
-        <td>{{ getBookById(loan.bookId)?.author }}</td>
-        <td>{{ getUserById(loan.userId)?.firstName }}</td>
-        <td>{{ getUserById(loan.userId)?.lastName }}</td>
-        <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ loan.isReturned ? 'Zwrócono' : 'Nie zwrócono' }}</td>
-        <td>
-          <button 
-            [disabled]="loan.isReturned" 
-            (click)="markAsReturned(loan._id)">
-            Oznacz jako zwróconą
-          </button>
-        </td>
-      </tr>
+      @for(loan of filteredLoans; track loan)
+      {
+        <tr>
+          <td>{{ loan._id }}</td>
+          <td>{{ getBookById(loan.bookId)?.title }}</td>
+          <td>{{ getBookById(loan.bookId)?.author }}</td>
+          <td>{{ getUserById(loan.userId)?.firstName }}</td>
+          <td>{{ getUserById(loan.userId)?.lastName }}</td>
+          <td>{{ loan.loanDate | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ loan.returnDate | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ loan.isReturned ? 'Zwrócono' : 'Nie zwrócono' }}</td>
+          <td>
+            <button 
+              [disabled]="loan.isReturned" 
+              (click)="markAsReturned(loan._id)">
+              Oznacz jako zwróconą
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
+  }
 </div>
 
-<!-- Tabela rezerwacji -->
-<div *ngIf="showReserves" class="loan-table">
-  <h2>Lista rezerwacji</h2>
+<div class="loan-table">
+  @if(showReserves)
+  {
+    <h2>Lista rezerwacji</h2>
 
   <div class="search-form">
     <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj..."/>
@@ -70,17 +76,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reservation of filteredReservations">
-        <td>{{ reservation._id }}</td>
-        <td>{{ getBookById(reservation.bookId)?.title }}</td>
-        <td>{{ getBookById(reservation.bookId)?.author }}</td>
-        <td>{{ getUserById(reservation.userId)?.firstName }}</td>
-        <td>{{ getUserById(reservation.userId)?.lastName }}</td>
-        <td>{{ reservation.reservationDate | date: 'yyyy-MM-dd' }}</td>
-        <td>
-          <button>Anuluj</button>
-        </td>
-      </tr>
+      @for(reservation of filteredReservations; track reservation)
+      {
+        <tr>
+          <td>{{ reservation._id }}</td>
+          <td>{{ getBookById(reservation.bookId)?.title }}</td>
+          <td>{{ getBookById(reservation.bookId)?.author }}</td>
+          <td>{{ getUserById(reservation.userId)?.firstName }}</td>
+          <td>{{ getUserById(reservation.userId)?.lastName }}</td>
+          <td>{{ reservation.reservationDate | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <button>Anuluj</button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
+  }
 </div>

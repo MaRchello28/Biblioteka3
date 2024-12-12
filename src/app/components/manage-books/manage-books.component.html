@@ -8,111 +8,119 @@
     </label>
   </div>
 
-  <!-- Formularz dodawania książki -->
-  <div *ngIf="showAddBook">
-    <div class="book-form">
-      <h3>Dodaj książkę</h3>
-      <form [formGroup]="newBookForm" (ngSubmit)="addBook()">
-        <div class="form-group">
-          <label for="title">Tytuł</label>
-          <input id="title" formControlName="title" placeholder="Tytuł" required />
-        </div>
-
-        <div class="form-group">
-          <label for="author">Autor</label>
-          <input id="author" formControlName="author" placeholder="Autor" required />
-        </div>
-
-        <div class="form-group">
-          <label for="genre">Gatunek</label>
-          <input id="genre" formControlName="genre" placeholder="Gatunek" required />
-        </div>
-
-        <div class="form-group">
-          <label for="publicationYear">Rok publikacji</label>
-          <input id="publicationYear" formControlName="publicationYear" placeholder="Rok publikacji" type="number" required />
-        </div>
-
-        <div class="availability-checkbox">
-          <label>
-            <input formControlName="isAvailable" type="checkbox" />
-            Dostępna
-          </label>
-        </div>
-
-        <button type="submit" [disabled]="newBookForm.invalid">Dodaj książkę</button>
-      </form>
-    </div>
+  <div>
+    @if(showAddBook)
+    {
+      <div class="book-form">
+        <h3>Dodaj książkę</h3>
+        <form [formGroup]="newBookForm" (ngSubmit)="addBook()">
+          <div class="form-group">
+            <label for="title">Tytuł</label>
+            <input id="title" formControlName="title" placeholder="Tytuł" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="author">Autor</label>
+            <input id="author" formControlName="author" placeholder="Autor" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="genre">Gatunek</label>
+            <input id="genre" formControlName="genre" placeholder="Gatunek" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="publicationYear">Rok publikacji</label>
+            <input id="publicationYear" formControlName="publicationYear" placeholder="Rok publikacji" type="number" required />
+          </div>
+  
+          <div class="availability-checkbox">
+            <label>
+              <input formControlName="isAvailable" type="checkbox" />
+              Dostępna
+            </label>
+          </div>
+  
+          <button type="submit" [disabled]="newBookForm.invalid">Dodaj książkę</button>
+        </form>
+      </div>
+    }
   </div>
 
-  <!-- Formularz edycji książki -->
-  <div *ngIf="editingBook">
-    <div class="book-form">
-      <h3>Edytuj książkę</h3>
-      <form [formGroup]="editingBookForm" (ngSubmit)="saveEdit()">
-        <div class="form-group">
-          <label for="title">Tytuł</label>
-          <input id="title" formControlName="title" placeholder="Tytuł" required />
-        </div>
-
-        <div class="form-group">
-          <label for="author">Autor</label>
-          <input id="author" formControlName="author" placeholder="Autor" required />
-        </div>
-
-        <div class="form-group">
-          <label for="genre">Gatunek</label>
-          <input id="genre" formControlName="genre" placeholder="Gatunek" required />
-        </div>
-
-        <div class="form-group">
-          <label for="publicationYear">Rok publikacji</label>
-          <input id="publicationYear" formControlName="publicationYear" placeholder="Rok publikacji" type="number" required />
-        </div>
-
-        <div class="availability-checkbox">
-          <label>
-            <input formControlName="isAvailable" type="checkbox" />
-            Dostępna
-          </label>
-        </div>
-
-        <button type="submit" [disabled]="editingBookForm.invalid">Zapisz zmiany</button>
-        <button type="button" (click)="cancelEdit()">Anuluj</button>
-      </form>
-    </div>
+  <div>
+    @if(editingBook)
+    {
+      <div class="book-form">
+        <h3>Edytuj książkę</h3>
+        <form [formGroup]="editingBookForm" (ngSubmit)="saveEdit()">
+          <div class="form-group">
+            <label for="title">Tytuł</label>
+            <input id="title" formControlName="title" placeholder="Tytuł" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="author">Autor</label>
+            <input id="author" formControlName="author" placeholder="Autor" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="genre">Gatunek</label>
+            <input id="genre" formControlName="genre" placeholder="Gatunek" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="publicationYear">Rok publikacji</label>
+            <input id="publicationYear" formControlName="publicationYear" placeholder="Rok publikacji" type="number" required />
+          </div>
+  
+          <div class="availability-checkbox">
+            <label>
+              <input formControlName="isAvailable" type="checkbox" />
+              Dostępna
+            </label>
+          </div>
+  
+          <button type="submit" [disabled]="editingBookForm.invalid">Zapisz zmiany</button>
+          <button type="button" (click)="cancelEdit()">Anuluj</button>
+        </form>
+      </div>
+    }
   </div>
 
-  <!-- Formularz wyszukiwania książek -->
-  <div *ngIf="!showAddBook">
-    <div class="search-form">
-      <h3>Wyszukaj książki</h3>
-      <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj po tytule, autorze lub gatunku" />
-    </div>
-
-    <!-- Tabela książek -->
-    <div class="book-list">
-      <table>
-        <thead>
-          <tr>
-            <th (click)="sortBooks('title')" class="sortable">Tytuł</th>
-            <th (click)="sortBooks('author')" class="sortable">Autor</th>
-            <th (click)="sortBooks('publicationYear')" class="sortable">Rok</th>
-            <th>Akcje</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let book of filteredBooks">
-            <td>{{ book.title }}</td>
-            <td>{{ book.author }}</td>
-            <td>{{ book.publicationYear }}</td>
-            <td>
-              <button (click)="editBook(book)">Edytuj</button>
-              <button (click)="deleteBook(book._id)">Usuń</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div>
+    @if(!showAddBook)
+    {
+      <div class="search-form">
+        <h3>Wyszukaj książki</h3>
+        <input [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Wyszukaj po tytule, autorze lub gatunku" />
+      </div>
+  
+      <div class="book-list">
+        <table>
+          <thead>
+            <tr>
+              <th (click)="sortBooks('title')" class="sortable">Tytuł</th>
+              <th (click)="sortBooks('author')" class="sortable">Autor</th>
+              <th (click)="sortBooks('publicationYear')" class="sortable">Rok</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(book of filteredBooks; track book)
+            {
+              <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.publicationYear }}</td>
+                <td>
+                  <button (click)="editBook(book)">Edytuj</button>
+                  <button (click)="deleteBook(book._id)">Usuń</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </div>
 </div>

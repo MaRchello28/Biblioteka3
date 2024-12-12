@@ -24,9 +24,10 @@ export class AdminSiteComponent implements OnInit {
   loanStatistics: any[] = []; 
   filteredLoanStatistics: any[] = [];
   searchQuery: string = ''; 
-  minLoans: number = 0; // Zmienna do filtrowania minimalnej liczby wypożyczeń
+  minLoans: number = 0;
   books: Book[] = [];
   loans: Loan[] = [];
+  i = 0;
 
   constructor(
     private loanService: LoanService,

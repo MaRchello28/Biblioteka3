@@ -3,5 +3,10 @@
   <input [(ngModel)]="editableValue" [type]="fieldName === 'Hasło' ? 'password' : 'text'" />
   <button (click)="onSave()">Zapisz</button>
   <button (click)="onCancel()">Anuluj</button>
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div class="error-message">
+    @if(errorMessage)
+    { 
+      {{ errorMessage }}
+    }
+  </div>
 </div>
